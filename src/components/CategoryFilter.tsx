@@ -8,6 +8,7 @@ interface CategoryFilterProps {
   onSelectCategory: (categoryId: string) => void;
   products: Product[];
   isAdmin: boolean;
+  isNochebuena?: boolean;
   onAddCategory: (categoryName: string) => void;
   onDeleteCategory: (categoryId: string) => void;
 }
@@ -18,6 +19,7 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
   onSelectCategory,
   products,
   isAdmin,
+  isNochebuena = false,
   onAddCategory,
   onDeleteCategory,
 }) => {
@@ -53,7 +55,11 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
                 onClick={() => onSelectCategory(cat.id)}
                 className={`whitespace-nowrap px-4 py-2 sm:px-5 sm:py-2.5 rounded-full font-cursive-body text-base sm:text-lg font-bold transition-all duration-200 flex items-center gap-2 select-none border-2 ${
                   isActive
-                    ? 'bg-gradient-to-r from-red-600 to-emerald-600 text-white border-red-600 ring-2 ring-emerald-600 shadow-[0_4px_15px_rgba(220,38,38,0.3)] scale-102'
+                    ? 'bg-gradient-to-r from-red-600 to-emerald-600 text-white border-red-500 ring-2 ring-emerald-400 shadow-[0_0_20px_rgba(220,38,38,0.5)] scale-102'
+                    : isNochebuena
+                    ? isEven
+                      ? 'bg-slate-900/85 text-slate-100 hover:text-red-300 hover:bg-slate-800 border-red-500 ring-1 ring-emerald-500 shadow-sm'
+                      : 'bg-slate-900/85 text-slate-100 hover:text-emerald-300 hover:bg-slate-800 border-emerald-500 ring-1 ring-red-500 shadow-sm'
                     : isEven
                     ? 'bg-white text-slate-800 hover:text-red-700 hover:bg-red-50/60 border-red-500 ring-1 ring-emerald-500 shadow-sm'
                     : 'bg-white text-slate-800 hover:text-emerald-700 hover:bg-emerald-50/60 border-emerald-600 ring-1 ring-red-500 shadow-sm'
@@ -64,6 +70,8 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
                   className={`text-xs px-2 py-0.5 rounded-full font-mono-nums ${
                     isActive
                       ? 'bg-white text-red-700 font-extrabold'
+                      : isNochebuena
+                      ? 'bg-slate-800 text-amber-300 font-bold border border-slate-700'
                       : isEven
                       ? 'bg-red-100 text-red-800 font-bold'
                       : 'bg-emerald-100 text-emerald-800 font-bold'

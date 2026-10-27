@@ -6,6 +6,7 @@ import { compressImageFile } from '../utils/storage';
 interface HeroCarouselProps {
   banners: Banner[];
   isAdmin: boolean;
+  isNochebuena?: boolean;
   onSelectCategory: (categoryId: string) => void;
   onAddBanner: (banner: Banner) => void;
   onDeleteBanner: (bannerId: string) => void;
@@ -15,6 +16,7 @@ interface HeroCarouselProps {
 export const HeroCarousel: React.FC<HeroCarouselProps> = ({
   banners,
   isAdmin,
+  isNochebuena = false,
   onSelectCategory,
   onAddBanner,
   onDeleteBanner,
@@ -111,9 +113,13 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
         className="hidden"
       />
 
-      {/* Hero Frame with Red & Green Christmas Borders */}
+      {/* Hero Frame with Red & Green Christmas Borders & Neon Glow */}
       <div
-        className="relative overflow-hidden rounded-3xl border-3 border-red-600 ring-4 ring-emerald-600 bg-white shadow-[0_10px_30px_rgba(220,38,38,0.22),0_10px_35px_rgba(22,163,74,0.22)] transition-all duration-300 group"
+        className={`relative overflow-hidden rounded-3xl border-3 transition-all duration-500 group ${
+          isNochebuena
+            ? 'border-red-500 ring-4 ring-emerald-400 bg-slate-950 shadow-[0_0_35px_rgba(220,38,38,0.5),0_0_45px_rgba(22,163,74,0.45)]'
+            : 'border-red-600 ring-4 ring-emerald-600 bg-white shadow-[0_10px_30px_rgba(220,38,38,0.22),0_10px_35px_rgba(22,163,74,0.22)]'
+        }`}
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >

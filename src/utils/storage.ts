@@ -8,7 +8,25 @@ const KEYS = {
   SETTINGS: 'catalog_settings_v2',
   CART: 'catalog_cart_v2',
   IS_ADMIN: 'catalog_is_admin_v2',
+  NOCHEBUENA: 'catalog_theme_nochebuena_v2',
 };
+
+export const loadStoredNochebuena = (): boolean => {
+  try {
+    return localStorage.getItem(KEYS.NOCHEBUENA) === 'true';
+  } catch {
+    return false;
+  }
+};
+
+export const saveStoredNochebuena = (enabled: boolean): void => {
+  try {
+    localStorage.setItem(KEYS.NOCHEBUENA, String(enabled));
+  } catch (e) {
+    console.error('Failed to save Nochebuena theme to localStorage', e);
+  }
+};
+
 
 
 export const loadStoredProducts = (): Product[] => {

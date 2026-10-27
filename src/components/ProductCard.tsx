@@ -6,6 +6,7 @@ interface ProductCardProps {
   product: Product;
   settings: StoreSettings;
   isAdmin: boolean;
+  isNochebuena?: boolean;
   onOpenDetail: (product: Product) => void;
   onAddToCart: (product: Product, quantity?: number) => void;
   onEditProduct: (product: Product) => void;
@@ -16,6 +17,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   settings,
   isAdmin,
+  isNochebuena = false,
   onOpenDetail,
   onAddToCart,
   onEditProduct,
@@ -34,7 +36,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <div
       onClick={() => onOpenDetail(product)}
-      className="group relative flex flex-col justify-between bg-white/90 backdrop-blur-sm hover:bg-white rounded-3xl border-2 border-red-600 ring-2 ring-emerald-600 hover:border-emerald-600 hover:ring-red-600 shadow-[0_4px_15px_rgba(220,38,38,0.12)] hover:shadow-[0_10px_25px_rgba(220,38,38,0.25),0_10px_30px_rgba(22,163,74,0.25)] transition-all duration-300 cursor-pointer overflow-hidden p-2.5 sm:p-3.5"
+      className={`group relative flex flex-col justify-between rounded-3xl border-2 transition-all duration-300 cursor-pointer overflow-hidden p-2.5 sm:p-3.5 ${
+        isNochebuena
+          ? 'bg-slate-900/85 backdrop-blur-md hover:bg-slate-900/95 border-red-500 ring-2 ring-emerald-400 shadow-[0_0_20px_rgba(220,38,38,0.35),0_0_25px_rgba(22,163,74,0.3)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6),0_0_35px_rgba(22,163,74,0.5)]'
+          : 'bg-white/90 backdrop-blur-sm hover:bg-white border-red-600 ring-2 ring-emerald-600 hover:border-emerald-600 hover:ring-red-600 shadow-[0_4px_15px_rgba(220,38,38,0.12)] hover:shadow-[0_10px_25px_rgba(220,38,38,0.25),0_10px_30px_rgba(22,163,74,0.25)]'
+      }`}
     >
 
       {/* Mini Christmas bow decoration on the top card border */}
@@ -107,27 +113,65 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       <div className="flex flex-col flex-1 justify-between">
         <div>
           {/* Subtle Category Kicker */}
-          <span className="font-cursive-body text-xs sm:text-sm font-bold text-emerald-700 block mb-0.5">
+          <span
+            className={`font-cursive-body text-xs sm:text-sm font-bold block mb-0.5 ${
+              isNochebuena ? 'text-emerald-300' : 'text-emerald-700'
+            }`}
+          >
             {product.category}
           </span>
 
           {/* Product Name in cursive title */}
-          <h3 className="font-cursive-title text-base sm:text-xl font-bold text-slate-900 line-clamp-2 leading-snug group-hover:text-red-700 transition-colors">
+          <h3
+            className={`font-cursive-title text-base sm:text-xl font-bold line-clamp-2 leading-snug transition-colors ${
+              isNochebuena
+                ? 'text-white group-hover:text-amber-300'
+                : 'text-slate-900 group-hover:text-red-700'
+            }`}
+          >
             {product.name}
           </h3>
         </div>
 
         {/* Price & Action Row */}
-        <div className="mt-2 pt-2 border-t-2 border-dashed border-red-200 flex items-center justify-between gap-1">
+        <div
+          className={`mt-2 pt-2 border-t-2 border-dashed flex items-center justify-between gap-1 ${
+            isNochebuena ? 'border-red-500/40' : 'border-red-200'
+          }`}
+        >
           <div className="flex flex-col">
-            <span className="font-cursive-body text-xs text-slate-600 font-bold leading-none">Costo</span>
+            <span
+              className={`font-cursive-body text-xs font-bold leading-none ${
+                isNochebuena ? 'text-slate-300' : 'text-slate-600'
+              }`}
+            >
+              Costo
+            </span>
             <div className="flex items-baseline gap-0.5">
-              <span className="text-xs sm:text-sm font-bold text-emerald-700">{settings.currencySymbol}</span>
-              <span className="font-cursive-title text-xl sm:text-2xl font-black text-red-700">
+              <span
+                className={`text-xs sm:text-sm font-bold ${
+                  isNochebuena ? 'text-emerald-400' : 'text-emerald-700'
+                }`}
+              >
+                {settings.currencySymbol}
+              </span>
+              <span
+                className={`font-cursive-title text-xl sm:text-2xl font-black ${
+                  isNochebuena
+                    ? 'text-amber-300 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]'
+                    : 'text-red-700'
+                }`}
+              >
                 {product.price.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
               </span>
               {product.unit && (
-                <span className="font-cursive-body text-xs text-slate-600 font-bold ml-0.5">/{product.unit}</span>
+                <span
+                  className={`font-cursive-body text-xs font-bold ml-0.5 ${
+                    isNochebuena ? 'text-slate-300' : 'text-slate-600'
+                  }`}
+                >
+                  /{product.unit}
+                </span>
               )}
             </div>
           </div>

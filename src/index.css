@@ -61,6 +61,16 @@
   transform: translateY(-3px);
 }
 
+/* Nochebuena Enhanced Glows */
+.nochebuena-lights-glow {
+  filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 18px currentColor);
+}
+
+.nochebuena-card-shadow {
+  box-shadow: 0 0 0 2px #dc2626, 0 0 0 4px #16a34a, 0 0 30px -3px rgba(220, 38, 38, 0.45), 0 0 40px -5px rgba(22, 163, 74, 0.4);
+}
+
+
 /* Christmas Garland Lights Animation */
 @keyframes fairyTwinkle {
   0%, 100% { opacity: 0.55; transform: scale(0.92); }

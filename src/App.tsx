@@ -11,6 +11,8 @@ import {
   saveStoredSettings,
   loadStoredCart,
   saveStoredCart,
+  loadStoredNochebuena,
+  saveStoredNochebuena,
 } from './utils/storage';
 import { INITIAL_PRODUCTS, INITIAL_BANNERS, INITIAL_CATEGORIES, INITIAL_SETTINGS } from './data/initialData';
 import { Header } from './components/Header';
@@ -34,6 +36,9 @@ export default function App() {
   const [categories, setCategories] = useState<Category[]>(() => loadStoredCategories());
   const [settings, setSettings] = useState<StoreSettings>(() => loadStoredSettings());
   const [cart, setCart] = useState<CartItem[]>(() => loadStoredCart());
+
+  // Festive Christmas Nochebuena Theme State
+  const [isNochebuena, setIsNochebuena] = useState<boolean>(() => loadStoredNochebuena());
 
   // Festive Christmas Snow State
   const [snowEnabled, setSnowEnabled] = useState<boolean>(true);
@@ -75,6 +80,15 @@ export default function App() {
   useEffect(() => {
     saveStoredCart(cart);
   }, [cart]);
+
+  useEffect(() => {
+    saveStoredNochebuena(isNochebuena);
+  }, [isNochebuena]);
+
+  // Nochebuena Theme Toggle Handler
+  const handleToggleNochebuena = () => {
+    setIsNochebuena((prev) => !prev);
+  };
 
   // Admin Toggle Handler
   const handleToggleAdmin = () => {
@@ -195,7 +209,9 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen text-slate-900 flex flex-col selection:bg-red-500/20 selection:text-red-900 relative overflow-x-hidden">
+    <div className={`min-h-screen flex flex-col selection:bg-red-500/20 selection:text-red-900 relative overflow-x-hidden ${
+      isNochebuena ? 'text-slate-100' : 'text-slate-900'
+    }`}>
       
       {/* Imagen adjuntada como fondo completo del sitio (compatible con móviles y escritorio) */}
       <div
@@ -206,8 +222,21 @@ export default function App() {
         aria-hidden="true"
       />
 
+      {/* Filtro Oscuro Nochebuena: oscurece el fondo permitiendo que las luces navideñas, neón y elementos del catálogo resalten con brillo radiante */}
+      <div
+        className={`fixed inset-0 -z-5 pointer-events-none transition-all duration-700 ease-in-out ${
+          isNochebuena ? 'opacity-100' : 'opacity-0'
+        }`}
+        style={{
+          background: 'radial-gradient(ellipse at 50% 15%, rgba(13, 5, 29, 0.88) 0%, rgba(6, 2, 16, 0.94) 100%)',
+          backdropFilter: 'brightness(0.55) contrast(1.22) saturate(1.15)',
+          WebkitBackdropFilter: 'brightness(0.55) contrast(1.22) saturate(1.15)',
+        }}
+        aria-hidden="true"
+      />
+
       {/* Falling Christmas Snow */}
-      <SnowEffect enabled={snowEnabled} />
+      <SnowEffect enabled={snowEnabled} isNochebuena={isNochebuena} />
 
       {/* 2. Barra Superior (Header Fijo con Logo de Ballón Dulces Khloe) */}
       <Header
@@ -217,27 +246,33 @@ export default function App() {
         onOpenSettingsModal={() => setIsAdminSettingsModalOpen(true)}
         snowEnabled={snowEnabled}
         onToggleSnow={() => setSnowEnabled(!snowEnabled)}
+        isNochebuena={isNochebuena}
+        onToggleNochebuena={handleToggleNochebuena}
       />
 
       {/* Main Content Area: Padding bottom (pb-36) avoids obscuring by fixed cart button & footer */}
       <main className="flex-1 pb-36 sm:pb-32 bg-transparent">
         {/* Admin status notice banner if active */}
         {isAdmin && (
-          <div className="bg-red-50/90 backdrop-blur-sm border-b-2 border-red-600 ring-1 ring-emerald-600 py-2.5 px-4 text-center font-cursive-body">
-            <p className="text-base text-red-800 font-bold flex items-center justify-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-ping" />
+          <div
+            className={`border-b-2 py-2.5 px-4 text-center font-cursive-body backdrop-blur-sm ${
+              isNochebuena
+                ? 'bg-slate-900/90 border-red-500 ring-1 ring-emerald-500 text-amber-200'
+                : 'bg-red-50/90 border-red-600 ring-1 ring-emerald-600 text-red-800'
+            }`}
+          >
+            <p className="text-base font-bold flex items-center justify-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
               <span>Modo Administrador Habilitado: Puedes editar o añadir decoraciones, banners, categorías y WhatsApp.</span>
             </p>
           </div>
         )}
 
-
-
-
         {/* 3. Carrusel de Banners Publicitarios (Hero Section) */}
         <HeroCarousel
           banners={banners}
           isAdmin={isAdmin}
+          isNochebuena={isNochebuena}
           onSelectCategory={(catId) => setActiveCategory(catId)}
           onAddBanner={handleAddBanner}
           onDeleteBanner={handleDeleteBanner}
@@ -251,6 +286,7 @@ export default function App() {
           onSelectCategory={setActiveCategory}
           products={products}
           isAdmin={isAdmin}
+          isNochebuena={isNochebuena}
           onAddCategory={handleAddCategory}
           onDeleteCategory={handleDeleteCategory}
         />
@@ -260,6 +296,7 @@ export default function App() {
           products={products}
           settings={settings}
           isAdmin={isAdmin}
+          isNochebuena={isNochebuena}
           activeCategory={activeCategory}
           onOpenDetail={(product) => setSelectedProduct(product)}
           onAddToCart={handleAddToCart}
@@ -277,7 +314,7 @@ export default function App() {
       />
 
       {/* 8. Cintillo Inferior Fijo (Footer Persistente S&S Web Studio) */}
-      <FooterBar />
+      <FooterBar isNochebuena={isNochebuena} />
 
       {/* 6. Modal de Detalle de Producto */}
       <ProductDetailModal

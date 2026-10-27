@@ -7,6 +7,7 @@ interface ProductGridProps {
   products: Product[];
   settings: StoreSettings;
   isAdmin: boolean;
+  isNochebuena?: boolean;
   activeCategory: string;
   onOpenDetail: (product: Product) => void;
   onAddToCart: (product: Product, quantity?: number) => void;
@@ -19,6 +20,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
   products,
   settings,
   isAdmin,
+  isNochebuena = false,
   activeCategory,
   onOpenDetail,
   onAddToCart,
@@ -36,13 +38,29 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
       {/* Header bar of catalog section with festive title and stats */}
       <div className="flex items-center justify-between mb-4 sm:mb-6">
         <div>
-          <h2 className="font-cursive-title text-2xl sm:text-3xl lg:text-4xl font-extrabold text-red-700 tracking-wide flex items-center gap-2">
+          <h2
+            className={`font-cursive-title text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-wide flex items-center gap-2 ${
+              isNochebuena
+                ? 'text-amber-300 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)]'
+                : 'text-red-700'
+            }`}
+          >
             <span>🎁 Decoraciones &amp; Festejos Disponibles</span>
-            <span className="font-cursive-body text-base sm:text-lg font-bold px-3 py-0.5 rounded-full bg-white text-emerald-700 border-2 border-red-600 ring-1 ring-emerald-600 shadow-sm">
+            <span
+              className={`font-cursive-body text-base sm:text-lg font-bold px-3 py-0.5 rounded-full border-2 shadow-sm ${
+                isNochebuena
+                  ? 'bg-slate-900 text-amber-300 border-red-500 ring-1 ring-emerald-400'
+                  : 'bg-white text-emerald-700 border-red-600 ring-1 ring-emerald-600'
+              }`}
+            >
               {filteredProducts.length} {filteredProducts.length === 1 ? 'opción' : 'opciones'}
             </span>
           </h2>
-          <p className="font-cursive-body text-base sm:text-lg text-emerald-800 font-bold hidden sm:block">
+          <p
+            className={`font-cursive-body text-base sm:text-lg font-bold hidden sm:block ${
+              isNochebuena ? 'text-emerald-300' : 'text-emerald-800'
+            }`}
+          >
             Toca cualquier producto o servicio para ver especificaciones y cotizar por WhatsApp ✨
           </p>
         </div>
@@ -71,6 +89,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
               product={product}
               settings={settings}
               isAdmin={isAdmin}
+              isNochebuena={isNochebuena}
               onOpenDetail={onOpenDetail}
               onAddToCart={onAddToCart}
               onEditProduct={onEditProduct}
@@ -80,14 +99,28 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
         </div>
       ) : (
         /* Empty state with festive touch */
-        <div className="rounded-3xl border-2 border-red-600 ring-2 ring-emerald-600 bg-white p-8 sm:p-12 text-center flex flex-col items-center justify-center shadow-lg">
+        <div
+          className={`rounded-3xl border-2 p-8 sm:p-12 text-center flex flex-col items-center justify-center shadow-lg ${
+            isNochebuena
+              ? 'border-red-500 ring-2 ring-emerald-500 bg-slate-900/90 text-white'
+              : 'border-red-600 ring-2 ring-emerald-600 bg-white'
+          }`}
+        >
           <div className="w-16 h-16 rounded-full bg-red-50 border-2 border-red-600 ring-2 ring-emerald-600 flex items-center justify-center text-3xl mb-3">
             🎄
           </div>
-          <h3 className="font-cursive-title text-2xl font-bold text-red-700 mb-1">
+          <h3
+            className={`font-cursive-title text-2xl font-bold mb-1 ${
+              isNochebuena ? 'text-amber-300' : 'text-red-700'
+            }`}
+          >
             No hay opciones en esta categoría navideña
           </h3>
-          <p className="font-cursive-body text-base text-slate-700 font-bold max-w-sm mb-4">
+          <p
+            className={`font-cursive-body text-base font-bold max-w-sm mb-4 ${
+              isNochebuena ? 'text-slate-300' : 'text-slate-700'
+            }`}
+          >
             Explora las demás categorías de Ballón Dulces Khloe o agrega un nuevo arreglo.
           </p>
           {isAdmin && (

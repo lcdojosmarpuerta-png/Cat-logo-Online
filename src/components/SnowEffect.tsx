@@ -11,25 +11,31 @@ interface SnowflakeData {
   color: string;
 }
 
-export const SnowEffect: React.FC<{ enabled: boolean }> = ({ enabled }) => {
+export const SnowEffect: React.FC<{ enabled: boolean; isNochebuena?: boolean }> = ({
+  enabled,
+  isNochebuena = false,
+}) => {
   const snowflakes = useMemo(() => {
     const symbols = ['❄', '❅', '❆', '•', '✨'];
-    const colors = ['#dc2626', '#16a34a', '#38bdf8', '#f472b6', '#eab308'];
+    const dayColors = ['#dc2626', '#16a34a', '#38bdf8', '#f472b6', '#eab308'];
+    const nightColors = ['#ffffff', '#fde047', '#a5f3fc', '#fbcfe8', '#fef08a'];
+    const activeColors = isNochebuena ? nightColors : dayColors;
+
     const items: SnowflakeData[] = [];
-    for (let i = 0; i < 28; i++) {
+    for (let i = 0; i < 32; i++) {
       items.push({
         id: i,
-        left: `${(i * 3.5 + (i % 3)).toFixed(1)}%`,
-        duration: `${(7 + (i % 7)).toFixed(1)}s`,
-        delay: `${((i * 0.4) % 6).toFixed(1)}s`,
-        size: `${12 + (i % 10)}px`,
-        opacity: +(0.35 + ((i % 5) * 0.1)).toFixed(2),
+        left: `${(i * 3.1 + (i % 3)).toFixed(1)}%`,
+        duration: `${(6.5 + (i % 6)).toFixed(1)}s`,
+        delay: `${((i * 0.35) % 6).toFixed(1)}s`,
+        size: `${12 + (i % 12)}px`,
+        opacity: +(0.45 + ((i % 5) * 0.12)).toFixed(2),
         symbol: symbols[i % symbols.length],
-        color: colors[i % colors.length],
+        color: activeColors[i % activeColors.length],
       });
     }
     return items;
-  }, []);
+  }, [isNochebuena]);
 
   if (!enabled) return null;
 
@@ -46,6 +52,7 @@ export const SnowEffect: React.FC<{ enabled: boolean }> = ({ enabled }) => {
             fontSize: s.size,
             opacity: s.opacity,
             color: s.color,
+            filter: isNochebuena ? 'drop-shadow(0 0 5px rgba(255,255,255,0.7))' : undefined,
           }}
         >
           {s.symbol}
@@ -54,3 +61,4 @@ export const SnowEffect: React.FC<{ enabled: boolean }> = ({ enabled }) => {
     </div>
   );
 };
+

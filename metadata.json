@@ -1,0 +1,7 @@
+{
+  "name": "Ballón Dulces Khloe - Catálogo Navideño",
+  "description": "Catálogo Navideño interactivo de Ballón Dulces Khloe con decoraciones, arcos de globos pastel, candy bar y cotizaciones vía WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

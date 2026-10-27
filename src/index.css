@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Caveat', 'Dancing Script', cursive, sans-serif;
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+    background-color: #ffffff;
+    background-image: url('/assets/aistudio/1be976004c278360e8da7d8d4bb6e7d5_8d71b2ef.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: #0f172a;
+  }
+
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Dancing Script', cursive;
+  }
+
+  button, input, select, textarea {
+    font-family: 'Caveat', 'Dancing Script', cursive, sans-serif;
+  }
+}
+
+.font-cursive-title {
+  font-family: 'Dancing Script', cursive;
+}
+
+.font-cursive-body {
+  font-family: 'Caveat', cursive;
+}
+
+.font-mono-nums {
+  font-family: 'JetBrains Mono', 'Caveat', monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Red & Green Christmas Borders and Glows */
+.border-christmas-rg {
+  border: 2px solid #dc2626;
+  box-shadow: 0 0 0 2px #16a34a, 0 6px 20px -2px rgba(220, 38, 38, 0.25), 0 6px 24px -4px rgba(22, 163, 74, 0.25);
+}
+
+.border-christmas-gr {
+  border: 2px solid #16a34a;
+  box-shadow: 0 0 0 2px #dc2626, 0 6px 20px -2px rgba(22, 163, 74, 0.25), 0 6px 24px -4px rgba(220, 38, 38, 0.25);
+}
+
+.glow-christmas-festive {
+  box-shadow: 0 0 18px -2px rgba(220, 38, 38, 0.35), 0 0 28px -4px rgba(22, 163, 74, 0.35);
+}
+
+.glow-card-christmas {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glow-card-christmas:hover {
+  box-shadow: 0 0 0 2px #16a34a, 0 10px 25px -3px rgba(220, 38, 38, 0.35), 0 10px 30px -5px rgba(22, 163, 74, 0.3);
+  transform: translateY(-3px);
+}
+
+/* Christmas Garland Lights Animation */
+@keyframes fairyTwinkle {
+  0%, 100% { opacity: 0.55; transform: scale(0.92); }
+  50% { opacity: 1; transform: scale(1.18); filter: drop-shadow(0 0 6px currentColor); }
+}
+
+.animate-twinkle-1 {
+  animation: fairyTwinkle 1.8s infinite ease-in-out;
+}
+.animate-twinkle-2 {
+  animation: fairyTwinkle 2.2s infinite ease-in-out 0.4s;
+}
+.animate-twinkle-3 {
+  animation: fairyTwinkle 1.6s infinite ease-in-out 0.8s;
+}
+.animate-twinkle-4 {
+  animation: fairyTwinkle 2s infinite ease-in-out 1.2s;
+}
+
+/* Falling snow keyframes */
+@keyframes snowfall {
+  0% {
+    transform: translateY(-10px) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.85;
+  }
+  90% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(100vh) translateX(30px);
+    opacity: 0;
+  }
+}
+
+.snowflake {
+  position: fixed;
+  top: -10px;
+  pointer-events: none;
+  z-index: 35;
+  user-select: none;
+  animation-name: snowfall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* Hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

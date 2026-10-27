@@ -53,9 +53,9 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
             <div key={cat.id} className="relative flex-shrink-0 group">
               <button
                 onClick={() => onSelectCategory(cat.id)}
-                className={`whitespace-nowrap px-4 py-2 sm:px-5 sm:py-2.5 rounded-full font-cursive-body text-base sm:text-lg font-bold transition-all duration-200 flex items-center gap-2 select-none border-2 ${
+                className={`whitespace-nowrap px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full font-cursive-body text-xs sm:text-sm font-bold transition-all duration-200 flex items-center gap-1.5 select-none border-2 ${
                   isActive
-                    ? 'bg-gradient-to-r from-red-600 to-emerald-600 text-white border-red-500 ring-2 ring-emerald-400 shadow-[0_0_20px_rgba(220,38,38,0.5)] scale-102'
+                    ? 'bg-gradient-to-r from-red-600 to-emerald-600 text-white border-red-500 ring-2 ring-emerald-400 shadow-[0_0_15px_rgba(220,38,38,0.45)] scale-102'
                     : isNochebuena
                     ? isEven
                       ? 'bg-slate-900/85 text-slate-100 hover:text-red-300 hover:bg-slate-800 border-red-500 ring-1 ring-emerald-500 shadow-sm'
@@ -67,7 +67,7 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
               >
                 <span>{cat.name}</span>
                 <span
-                  className={`text-xs px-2 py-0.5 rounded-full font-mono-nums ${
+                  className={`text-[10px] sm:text-[11px] px-1.5 py-0.5 rounded-full font-mono-nums ${
                     isActive
                       ? 'bg-white text-red-700 font-extrabold'
                       : isNochebuena
@@ -91,9 +91,9 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
                     }
                   }}
                   title="Eliminar categoría"
-                  className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-600 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-700 shadow-md border border-white"
+                  className="absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-red-600 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-700 shadow-md border border-white"
                 >
-                  <X className="w-3.5 h-3.5" />
+                  <X className="w-3 h-3" />
                 </button>
               )}
             </div>
@@ -111,11 +111,11 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
                   value={newCatName}
                   onChange={(e) => setNewCatName(e.target.value)}
                   autoFocus
-                  className="bg-transparent text-sm text-slate-900 placeholder-slate-400 outline-none w-40 px-1 font-cursive-body font-bold"
+                  className="bg-transparent text-xs text-slate-900 placeholder-slate-400 outline-none w-36 px-1 font-cursive-body font-bold"
                 />
                 <button
                   type="submit"
-                  className="text-xs bg-emerald-600 text-white font-bold px-2.5 py-0.5 rounded-full hover:bg-emerald-700 font-cursive-body"
+                  className="text-[11px] bg-emerald-600 text-white font-bold px-2 py-0.5 rounded-full hover:bg-emerald-700 font-cursive-body"
                 >
                   Crear
                 </button>
@@ -124,15 +124,15 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
                   onClick={() => setIsAdding(false)}
                   className="text-slate-500 hover:text-red-600 p-0.5"
                 >
-                  <X className="w-3.5 h-3.5" />
+                  <X className="w-3 h-3" />
                 </button>
               </form>
             ) : (
               <button
                 onClick={() => setIsAdding(true)}
-                className="whitespace-nowrap px-4 py-2 rounded-full font-cursive-body text-base font-bold bg-white text-emerald-700 border-2 border-emerald-600 ring-1 ring-red-500 hover:bg-emerald-50 transition-all flex items-center gap-1.5 shadow-sm"
+                className="whitespace-nowrap px-3.5 py-1.5 rounded-full font-cursive-body text-xs sm:text-sm font-bold bg-white text-emerald-700 border-2 border-emerald-600 ring-1 ring-red-500 hover:bg-emerald-50 transition-all flex items-center gap-1 shadow-sm"
               >
-                <Plus className="w-4 h-4 stroke-[2.5] text-red-600" />
+                <Plus className="w-3.5 h-3.5 stroke-[2.5] text-red-600" />
                 <span>+ Nueva Categoría</span>
               </button>
             )}

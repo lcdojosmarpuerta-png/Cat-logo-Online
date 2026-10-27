@@ -90,71 +90,71 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         <div className="md:w-1/2 p-5 sm:p-7 flex flex-col justify-between overflow-y-auto bg-white">
           <div>
             {/* Category */}
-            <div className="flex items-center gap-1.5 font-cursive-body text-base text-emerald-700 font-bold tracking-wide mb-1">
-              <Sparkles className="w-4 h-4 text-red-600" />
+            <div className="flex items-center gap-1.5 font-cursive-body text-xs sm:text-sm text-emerald-700 font-bold tracking-wide mb-1">
+              <Sparkles className="w-3.5 h-3.5 text-red-600" />
               <span>{product.category}</span>
             </div>
 
             {/* Title */}
-            <h2 className="font-cursive-title text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight mb-3">
+            <h2 className="font-cursive-title text-lg sm:text-2xl font-extrabold text-slate-900 leading-tight mb-2.5">
               {product.name}
             </h2>
 
             {/* Cost Details */}
-            <div className="mb-4 p-3 rounded-2xl bg-red-50/50 border-2 border-red-500 ring-1 ring-emerald-500 flex items-baseline justify-between shadow-inner">
-              <span className="font-cursive-body text-base text-slate-800 font-bold">Costo del Arreglo:</span>
+            <div className="mb-3 p-2.5 rounded-2xl bg-red-50/50 border-2 border-red-500 ring-1 ring-emerald-500 flex items-baseline justify-between shadow-inner">
+              <span className="font-cursive-body text-xs sm:text-sm text-slate-800 font-bold">Costo del Arreglo:</span>
               <div className="flex items-baseline gap-1">
-                <span className="text-base font-bold text-emerald-700">{settings.currencySymbol}</span>
-                <span className="font-cursive-title text-3xl font-black text-red-700">
+                <span className="text-xs sm:text-sm font-bold text-emerald-700">{settings.currencySymbol}</span>
+                <span className="font-cursive-title text-2xl sm:text-3xl font-black text-red-700">
                   {product.price.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
                 </span>
                 {product.unit && (
-                  <span className="font-cursive-body text-sm text-slate-600 font-bold ml-0.5">/{product.unit}</span>
+                  <span className="font-cursive-body text-xs text-slate-600 font-bold ml-0.5">/{product.unit}</span>
                 )}
               </div>
             </div>
 
             {/* Full Description */}
-            <div className="mb-5">
-              <h4 className="font-cursive-body text-sm font-bold text-emerald-800 uppercase tracking-wider mb-1">
+            <div className="mb-4">
+              <h4 className="font-cursive-body text-xs font-bold text-emerald-800 uppercase tracking-wider mb-0.5">
                 Detalles &amp; Especificaciones
               </h4>
-              <p className="font-cursive-body text-base sm:text-lg text-slate-700 font-semibold leading-relaxed max-h-36 overflow-y-auto pr-1">
+              <p className="font-cursive-body text-xs sm:text-sm text-slate-700 font-semibold leading-relaxed max-h-32 overflow-y-auto pr-1">
                 {product.description}
               </p>
             </div>
           </div>
 
           {/* Action Module */}
-          <div className="pt-3 border-t-2 border-dashed border-emerald-300">
+          <div className="pt-2.5 border-t-2 border-dashed border-emerald-300">
             {/* Quantity Selector & Subtotal */}
-            <div className="flex items-center justify-between mb-4">
-              <span className="font-cursive-body text-base font-bold text-slate-800">Cantidad:</span>
-              <div className="flex items-center gap-2 bg-white border-2 border-red-600 ring-1 ring-emerald-600 rounded-2xl p-1">
+            <div className="flex items-center justify-between mb-3">
+              <span className="font-cursive-body text-xs sm:text-sm font-bold text-slate-800">Cantidad:</span>
+              <div className="flex items-center gap-1.5 bg-white border-2 border-red-600 ring-1 ring-emerald-600 rounded-xl p-0.5">
                 <button
                   onClick={handleDecrement}
                   disabled={quantity <= 1}
-                  className="w-8 h-8 rounded-xl bg-red-50 hover:bg-red-100 disabled:opacity-40 disabled:cursor-not-allowed text-red-700 flex items-center justify-center transition-colors border border-red-300"
+                  className="w-7 h-7 rounded-lg bg-red-50 hover:bg-red-100 disabled:opacity-40 disabled:cursor-not-allowed text-red-700 flex items-center justify-center transition-colors border border-red-300"
                 >
-                  <Minus className="w-4 h-4" />
+                  <Minus className="w-3.5 h-3.5" />
                 </button>
-                <span className="w-9 text-center font-cursive-title text-xl font-bold text-slate-900">
+                <span className="w-8 text-center font-cursive-title text-base font-bold text-slate-900">
                   {quantity}
                 </span>
                 <button
                   onClick={handleIncrement}
-                  className="w-8 h-8 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 flex items-center justify-center transition-colors border border-emerald-300"
+                  className="w-7 h-7 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 flex items-center justify-center transition-colors border border-emerald-300"
                 >
-                  <Plus className="w-4 h-4" />
+                  <Plus className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
 
             {/* Total preview if > 1 */}
             {quantity > 1 && (
-              <div className="flex items-center justify-between font-cursive-body text-base text-slate-700 font-bold mb-3 px-1">
+              <div className="flex items-center justify-between font-cursive-body text-xs sm:text-sm text-slate-700 font-bold mb-2.5 px-1">
                 <span>Subtotal estimado:</span>
-                <span className="font-cursive-title text-xl font-bold text-red-700">
+                <span className="font-cursive-title text-lg font-bold text-red-700">
                   {settings.currencySymbol}
                   {totalPrice.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
                 </span>
@@ -164,7 +164,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             {/* Primary Action Button: "Agregar al Carrito de Compras" */}
             <button
               onClick={handleAdd}
-              className={`w-full py-3.5 px-4 rounded-2xl font-cursive-title text-xl font-bold flex items-center justify-center gap-2 shadow-lg transition-all duration-200 active:scale-98 border-2 ${
+              className={`w-full py-2.5 px-4 rounded-2xl font-cursive-title text-base sm:text-lg font-bold flex items-center justify-center gap-2 shadow-lg transition-all duration-200 active:scale-98 border-2 ${
                 added
                   ? 'bg-emerald-600 text-white border-red-600 ring-2 ring-emerald-400'
                   : 'bg-gradient-to-r from-red-600 to-emerald-600 hover:from-red-500 hover:to-emerald-500 text-white border-red-600 ring-2 ring-emerald-600'

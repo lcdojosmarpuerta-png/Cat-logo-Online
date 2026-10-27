@@ -67,15 +67,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Badge */}
         {product.badge && (
-          <div className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full font-cursive-body text-xs sm:text-sm font-bold tracking-wide uppercase bg-white/95 backdrop-blur-md border-2 border-red-600 ring-1 ring-emerald-600 text-red-700 shadow-sm">
+          <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full font-cursive-body text-[10px] sm:text-xs font-bold tracking-wide uppercase bg-white/95 backdrop-blur-md border-2 border-red-600 ring-1 ring-emerald-600 text-red-700 shadow-sm">
             {product.badge}
           </div>
         )}
 
         {/* Hover preview eye button */}
         <div className="absolute inset-0 bg-black/25 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-          <span className="px-3 py-1.5 rounded-full bg-white text-red-700 font-cursive-body text-sm font-bold flex items-center gap-1.5 border-2 border-red-600 ring-1 ring-emerald-600 shadow-lg">
-            <Eye className="w-3.5 h-3.5 text-emerald-600" />
+          <span className="px-2.5 py-1 rounded-full bg-white text-red-700 font-cursive-body text-xs font-bold flex items-center gap-1 border-2 border-red-600 ring-1 ring-emerald-600 shadow-md">
+            <Eye className="w-3 h-3 text-emerald-600" />
             <span>Ver Detalle ✨</span>
           </span>
         </div>
@@ -89,9 +89,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 onEditProduct(product);
               }}
               title="Editar producto"
-              className="p-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-md transition-colors border border-white"
+              className="p-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white shadow-md transition-colors border border-white"
             >
-              <Edit2 className="w-3.5 h-3.5" />
+              <Edit2 className="w-3 h-3" />
             </button>
             <button
               onClick={(e) => {
@@ -101,9 +101,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 }
               }}
               title="Eliminar producto"
-              className="p-1.5 rounded-xl bg-red-600 hover:bg-red-700 text-white shadow-md transition-colors border border-white"
+              className="p-1 rounded-lg bg-red-600 hover:bg-red-700 text-white shadow-md transition-colors border border-white"
             >
-              <Trash2 className="w-3.5 h-3.5" />
+              <Trash2 className="w-3 h-3" />
             </button>
           </div>
         )}
@@ -114,7 +114,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <div>
           {/* Subtle Category Kicker */}
           <span
-            className={`font-cursive-body text-xs sm:text-sm font-bold block mb-0.5 ${
+            className={`font-cursive-body text-xs font-bold block mb-0.5 ${
               isNochebuena ? 'text-emerald-300' : 'text-emerald-700'
             }`}
           >
@@ -123,7 +123,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
           {/* Product Name in cursive title */}
           <h3
-            className={`font-cursive-title text-base sm:text-xl font-bold line-clamp-2 leading-snug transition-colors ${
+            className={`font-cursive-title text-sm sm:text-base font-bold line-clamp-2 leading-snug transition-colors ${
               isNochebuena
                 ? 'text-white group-hover:text-amber-300'
                 : 'text-slate-900 group-hover:text-red-700'
@@ -135,13 +135,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Price & Action Row */}
         <div
-          className={`mt-2 pt-2 border-t-2 border-dashed flex items-center justify-between gap-1 ${
+          className={`mt-1.5 pt-1.5 border-t-2 border-dashed flex items-center justify-between gap-1 ${
             isNochebuena ? 'border-red-500/40' : 'border-red-200'
           }`}
         >
           <div className="flex flex-col">
             <span
-              className={`font-cursive-body text-xs font-bold leading-none ${
+              className={`font-cursive-body text-[10px] font-bold leading-none ${
                 isNochebuena ? 'text-slate-300' : 'text-slate-600'
               }`}
             >
@@ -149,16 +149,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             </span>
             <div className="flex items-baseline gap-0.5">
               <span
-                className={`text-xs sm:text-sm font-bold ${
+                className={`text-xs font-bold ${
                   isNochebuena ? 'text-emerald-400' : 'text-emerald-700'
                 }`}
               >
                 {settings.currencySymbol}
               </span>
               <span
-                className={`font-cursive-title text-xl sm:text-2xl font-black ${
+                className={`font-cursive-title text-base sm:text-lg font-black ${
                   isNochebuena
-                    ? 'text-amber-300 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]'
+                    ? 'text-amber-300 drop-shadow-[0_0_6px_rgba(251,191,36,0.45)]'
                     : 'text-red-700'
                 }`}
               >
@@ -166,7 +166,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               </span>
               {product.unit && (
                 <span
-                  className={`font-cursive-body text-xs font-bold ml-0.5 ${
+                  className={`font-cursive-body text-[10px] font-bold ml-0.5 ${
                     isNochebuena ? 'text-slate-300' : 'text-slate-600'
                   }`}
                 >
@@ -180,7 +180,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <button
             onClick={handleQuickAdd}
             title="Agregar al Carrito"
-            className={`p-2 sm:px-3 sm:py-2 rounded-2xl font-cursive-body text-sm sm:text-base font-bold transition-all duration-200 flex items-center justify-center gap-1 shrink-0 border-2 ${
+            className={`p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl font-cursive-body text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-1 shrink-0 border-2 ${
               justAdded
                 ? 'bg-emerald-600 text-white border-red-600 scale-105 shadow-md'
                 : 'bg-red-600 hover:bg-emerald-600 text-white border-emerald-600 hover:border-red-600 active:scale-95 shadow-sm'
@@ -188,12 +188,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           >
             {justAdded ? (
               <>
-                <Check className="w-3.5 h-3.5 stroke-[3]" />
+                <Check className="w-3 h-3 stroke-[3]" />
                 <span>¡Listo!</span>
               </>
             ) : (
               <>
-                <Plus className="w-3.5 h-3.5 stroke-[3]" />
+                <Plus className="w-3 h-3 stroke-[3]" />
                 <span>Añadir</span>
               </>
             )}

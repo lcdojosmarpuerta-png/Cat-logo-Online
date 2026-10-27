@@ -38,15 +38,15 @@ export const FooterBar: React.FC<{ isNochebuena?: boolean }> = ({ isNochebuena =
 
         {/* Texto exacto con tipografía cursiva festiva */}
         <div
-          className={`font-cursive-body text-base sm:text-xl font-bold tracking-wide truncate flex items-center gap-1.5 sm:gap-2 ${
+          className={`font-cursive-body text-xs sm:text-sm font-bold tracking-wide truncate flex items-center gap-1.5 sm:gap-2 ${
             isNochebuena ? 'text-slate-200' : 'text-slate-800'
           }`}
         >
           <span>
             Diseñado y Creado por{' '}
             <strong
-              className={`font-extrabold font-cursive-title text-lg sm:text-2xl ${
-                isNochebuena ? 'text-amber-300 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]' : 'text-red-700'
+              className={`font-extrabold font-cursive-title text-sm sm:text-base ${
+                isNochebuena ? 'text-amber-300 drop-shadow-[0_0_6px_rgba(251,191,36,0.45)]' : 'text-red-700'
               }`}
             >
               S&amp;S Web Studio
@@ -62,7 +62,7 @@ export const FooterBar: React.FC<{ isNochebuena?: boolean }> = ({ isNochebuena =
             }`}
             title="Escribir a WhatsApp / Llamar a S&S Web Studio"
           >
-            <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-600 inline" />
+            <MessageCircle className="w-3.5 h-3.5 text-red-600 inline" />
             <span className="font-mono-nums">0424-5104245</span>
           </a>
         </div>

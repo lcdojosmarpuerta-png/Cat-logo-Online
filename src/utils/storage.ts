@@ -13,9 +13,11 @@ const KEYS = {
 
 export const loadStoredNochebuena = (): boolean => {
   try {
-    return localStorage.getItem(KEYS.NOCHEBUENA) === 'true';
+    const item = localStorage.getItem(KEYS.NOCHEBUENA);
+    if (item === null) return true; // Modo nocturno predeterminado al iniciar el sitio
+    return item === 'true';
   } catch {
-    return false;
+    return true;
   }
 };
 

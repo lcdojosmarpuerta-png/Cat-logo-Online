@@ -3,8 +3,8 @@
 @layer base {
   body {
     font-family: 'Caveat', 'Dancing Script', cursive, sans-serif;
-    font-size: 1.15rem;
-    letter-spacing: 0.02em;
+    font-size: 0.95rem;
+    letter-spacing: 0.015em;
     background-color: #ffffff;
     background-image: url('/assets/aistudio/1be976004c278360e8da7d8d4bb6e7d5_8d71b2ef.jpg');
     background-size: cover;

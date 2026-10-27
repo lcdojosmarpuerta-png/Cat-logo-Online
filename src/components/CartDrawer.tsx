@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Plus, Minus, Trash2, Send, User, FileText } from 'lucide-react';
+import { X, Trash2, Send, User, FileText, Sparkles } from 'lucide-react';
 import { CartItem, StoreSettings } from '../types/catalog';
 
 interface CartDrawerProps {
@@ -7,7 +7,6 @@ interface CartDrawerProps {
   onClose: () => void;
   cart: CartItem[];
   settings: StoreSettings;
-  onUpdateQuantity: (productId: string, quantity: number) => void;
   onRemoveItem: (productId: string) => void;
   onClearCart: () => void;
 }
@@ -17,7 +16,6 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onClose,
   cart,
   settings,
-  onUpdateQuantity,
   onRemoveItem,
   onClearCart,
 }) => {
@@ -27,8 +25,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
   if (!isOpen) return null;
 
-  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
-  const totalCost = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+  const totalItems = cart.length;
 
   const handleSendBudget = () => {
     if (cart.length === 0) return;
@@ -36,8 +33,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     const rawPhone = settings.whatsappNumber || '584245104245';
     const cleanPhone = rawPhone.replace(/\D/g, '');
 
-    let message = `🎄✨ *SOLICITUD DE PRESUPUESTO NAVIDEÑO* ✨🎄\n`;
-    message += `🎈 *BALLÓN DULCES KHLOE - FESTEJOS Y DECORACIONES* 🎈\n`;
+    let message = `🎈 *BALLÓN DULCES KHLOE - FESTEJOS Y DECORACIONES* 🎈\n`;
+    message += `✨ *SOLICITUD DE COTIZACIÓN* ✨\n`;
     message += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
     if (customerName.trim()) {
       message += `👤 *Cliente:* ${customerName.trim()}\n`;
@@ -46,30 +43,28 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
     });
     message += `📅 *Fecha:* ${today}\n`;
     message += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-    message += `📋 *DETALLE DE PEDIDO:* \n\n`;
+    message += `📋 *ARREGLOS Y SERVICIOS DE INTERÉS:*\n\n`;
 
     cart.forEach((item, idx) => {
-      const itemSubtotal = item.product.price * item.quantity;
       message += `${idx + 1}. *${item.product.name}*\n`;
-      message += `   • Cantidad: ${item.quantity} ${item.product.unit || 'u.'}\n`;
-      message += `   • Precio: ${settings.currencySymbol}${item.product.price.toLocaleString('es-ES')}\n`;
-      message += `   • Subtotal: ${settings.currencySymbol}${itemSubtotal.toLocaleString('es-ES')}\n\n`;
+      message += `   • Categoría: ${item.product.category}\n`;
+      if (item.product.description) {
+        message += `   • Detalle: ${item.product.description}\n`;
+      }
+      message += `\n`;
     });
 
-    message += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-    message += `💰 *TOTAL ESTIMADO: ${settings.currencySymbol}${totalCost.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}*\n`;
-    message += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-
     if (customerNotes.trim()) {
-      message += `\n📝 *Notas / Fecha del Evento:* ${customerNotes.trim()}\n`;
+      message += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+      message += `📝 *Fecha del Evento / Notas:* ${customerNotes.trim()}\n`;
     }
 
-    message += `\n_Enviado desde el Catálogo Online de Ballón Dulces Khloe._\n¡Quedo a la espera de su respuesta para coordinar los detalles! 🎅🎉`;
+    message += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    message += `_Enviado desde el Catálogo Online de Ballón Dulces Khloe._\n`;
+    message += `¡Hola! Me gustaría cotizar la disponibilidad y presupuesto para estos arreglos. ¡Muchas gracias! ✨`;
 
     const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
 
@@ -91,22 +86,22 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity"
       />
 
-      {/* Drawer Container with White Background and Red/Green Border */}
+      {/* Drawer Container with Brand Styling */}
       <div className="fixed inset-y-0 right-0 max-w-full flex pl-4 sm:pl-10">
-        <div className="w-screen max-w-md sm:max-w-lg bg-white border-l-4 border-red-600 shadow-[-4px_0_0_0_#16a34a,-12px_0_30px_rgba(0,0,0,0.2)] flex flex-col justify-between">
+        <div className="w-screen max-w-md bg-white border-l-4 border-pink-500 shadow-[-10px_0_30px_rgba(244,114,182,0.2)] flex flex-col justify-between">
           
           {/* Header */}
-          <div className="p-3.5 sm:p-4 border-b-2 border-red-600 ring-1 ring-emerald-600 flex items-center justify-between bg-gradient-to-r from-red-50/70 via-white to-emerald-50/70">
+          <div className="p-3.5 sm:p-4 border-b border-pink-200 flex items-center justify-between bg-gradient-to-r from-pink-50/70 via-white to-sky-50/70">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-white border-2 border-red-600 ring-1 ring-emerald-600 flex items-center justify-center text-xl shadow-sm">
-                🎁
+              <div className="w-8 h-8 rounded-xl bg-white border border-pink-300 flex items-center justify-center text-lg shadow-sm">
+                🎈
               </div>
               <div>
-                <h3 className="font-cursive-title text-lg sm:text-xl font-bold text-red-700 leading-tight">
-                  Carrito de Presupuesto Navideño
+                <h3 className="font-cursive-title text-lg sm:text-xl font-bold text-purple-900 leading-tight">
+                  Lista de Cotización
                 </h3>
-                <span className="font-cursive-body text-xs sm:text-sm text-emerald-800 font-bold">
-                  {totalItems} {totalItems === 1 ? 'artículo' : 'artículos'} seleccionados ✨
+                <span className="font-cursive-body text-xs sm:text-sm text-pink-600 font-bold">
+                  {totalItems} {totalItems === 1 ? 'arreglo seleccionado' : 'arreglos seleccionados'} ✨
                 </span>
               </div>
             </div>
@@ -115,168 +110,126 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               {cart.length > 0 && (
                 <button
                   onClick={() => {
-                    if (confirm('¿Vaciar todo el carrito?')) onClearCart();
+                    if (confirm('¿Vaciar la lista de cotización?')) onClearCart();
                   }}
-                  title="Vaciar carrito"
-                  className="font-cursive-body text-xs font-bold text-red-600 hover:text-red-800 px-1.5 py-0.5 rounded transition-colors"
+                  title="Vaciar lista"
+                  className="font-cursive-body text-xs font-bold text-red-500 hover:text-red-700 px-1.5 py-0.5 rounded transition-colors"
                 >
                   Vaciar
                 </button>
               )}
               <button
                 onClick={onClose}
-                className="w-8 h-8 rounded-full bg-white hover:bg-red-50 text-red-700 flex items-center justify-center transition-colors border-2 border-red-600 ring-1 ring-emerald-600"
+                className="w-8 h-8 rounded-full bg-white hover:bg-pink-50 text-slate-700 flex items-center justify-center transition-colors border border-pink-300"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>
 
-          {/* Cart Item List */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3 bg-white">
+          {/* Cart Item List (NO price, NO quantity selector) */}
+          <div className="flex-1 overflow-y-auto p-3.5 sm:p-4 space-y-2.5 bg-white">
             {cart.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-6 text-slate-700">
-                <div className="w-20 h-20 rounded-full bg-red-50 border-2 border-red-600 ring-2 ring-emerald-600 flex items-center justify-center text-4xl mb-3 shadow-inner">
-                  🛍️
+                <div className="w-16 h-16 rounded-full bg-pink-50 border border-pink-300 flex items-center justify-center text-3xl mb-3 shadow-inner">
+                  🎈
                 </div>
-                <h4 className="font-cursive-title text-2xl font-bold text-red-700 mb-1">
-                  Tu carrito navideño está vacío
+                <h4 className="font-cursive-title text-xl font-bold text-purple-900 mb-1">
+                  Tu lista de cotización está vacía
                 </h4>
-                <p className="font-cursive-body text-base text-slate-700 font-bold max-w-xs mb-4">
-                  Explora las decoraciones, arcos y mesas dulces de Ballón Dulces Khloe para armar tu presupuesto.
+                <p className="font-cursive-body text-xs sm:text-sm text-slate-600 font-bold max-w-xs mb-4">
+                  Explora las decoraciones, arcos y mesas dulces de Ballón Dulces Khloe para cotizar tu evento.
                 </p>
                 <button
                   onClick={onClose}
-                  className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-red-600 to-emerald-600 text-white font-cursive-body text-base font-bold hover:from-red-500 hover:to-emerald-500 shadow-lg border-2 border-white"
+                  className="px-4 py-2 rounded-2xl bg-gradient-to-r from-pink-600 to-purple-600 text-white font-cursive-body text-xs sm:text-sm font-bold shadow-md border border-white"
                 >
-                  Ver Opciones Navideñas 🎄
+                  Explorar Arreglos ✨
                 </button>
               </div>
             ) : (
-              cart.map((item) => {
-                const itemTotal = item.product.price * item.quantity;
-                return (
-                  <div
-                    key={item.product.id}
-                    className="p-3 rounded-2xl bg-white border-2 border-red-600 ring-1 ring-emerald-600 flex items-center gap-3 transition-colors hover:bg-red-50/30 shadow-sm"
-                  >
-                    {/* Thumbnail */}
-                    <img
-                      src={item.product.image}
-                      alt={item.product.name}
-                      referrerPolicy="no-referrer"
-                      className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover bg-slate-50 border-2 border-emerald-500 shrink-0"
-                    />
+              cart.map((item) => (
+                <div
+                  key={item.product.id}
+                  className="p-2.5 rounded-2xl bg-white border border-pink-200 flex items-center gap-2.5 transition-colors hover:bg-pink-50/30 shadow-sm"
+                >
+                  {/* Thumbnail */}
+                  <img
+                    src={item.product.image}
+                    alt={item.product.name}
+                    referrerPolicy="no-referrer"
+                    className="w-12 h-12 rounded-xl object-cover bg-slate-50 border border-pink-300 shrink-0"
+                  />
 
-                    {/* Details */}
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-cursive-title text-sm sm:text-base font-bold text-slate-900 truncate">
-                        {item.product.name}
-                      </h4>
-                      <div className="flex items-baseline gap-1 mt-0.5">
-                        <span className="font-cursive-title text-sm text-emerald-700 font-bold">
-                          {settings.currencySymbol}
-                          {item.product.price.toLocaleString('es-ES')}
-                        </span>
-                        {item.product.unit && (
-                          <span className="font-cursive-body text-[10px] text-slate-600 font-bold">/{item.product.unit}</span>
-                        )}
-                      </div>
-
-                      {/* Quantity Modifier */}
-                      <div className="flex items-center gap-1.5 mt-1.5">
-                        <div className="flex items-center bg-white border-2 border-red-600 ring-1 ring-emerald-600 rounded-lg p-0.5">
-                          <button
-                            onClick={() => onUpdateQuantity(item.product.id, item.quantity - 1)}
-                            className="w-5 h-5 rounded bg-red-50 hover:bg-red-100 text-red-700 flex items-center justify-center text-[10px]"
-                          >
-                            <Minus className="w-2.5 h-2.5" />
-                          </button>
-                          <span className="w-6 text-center font-cursive-title text-sm font-bold text-slate-900">
-                            {item.quantity}
-                          </span>
-                          <button
-                            onClick={() => onUpdateQuantity(item.product.id, item.quantity + 1)}
-                            className="w-5 h-5 rounded bg-emerald-50 hover:bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px]"
-                          >
-                            <Plus className="w-2.5 h-2.5" />
-                          </button>
-                        </div>
-
-                        <span className="font-cursive-title text-base font-bold text-red-700 ml-auto">
-                          {settings.currencySymbol}
-                          {itemTotal.toLocaleString('es-ES')}
-                        </span>
-
-                        <button
-                          onClick={() => onRemoveItem(item.product.id)}
-                          className="p-1 rounded text-red-600 hover:text-red-800 transition-colors"
-                          title="Eliminar ítem"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </div>
+                  {/* Details */}
+                  <div className="flex-1 min-w-0">
+                    <span className="font-cursive-body text-[10px] text-purple-600 font-bold block leading-none mb-0.5">
+                      {item.product.category}
+                    </span>
+                    <h4 className="font-cursive-title text-sm sm:text-base font-bold text-slate-900 truncate">
+                      {item.product.name}
+                    </h4>
                   </div>
-                );
-              })
+
+                  {/* Single Remove Button (NO quantity selector) */}
+                  <button
+                    onClick={() => onRemoveItem(item.product.id)}
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors shrink-0"
+                    title="Quitar de la lista"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              ))
             )}
 
             {/* Optional Customer info */}
             {cart.length > 0 && (
               <div className="pt-2 space-y-2">
-                <div className="p-3 rounded-2xl bg-slate-50 border-2 border-emerald-600 ring-1 ring-red-500 space-y-2">
+                <div className="p-3 rounded-2xl bg-slate-50 border border-pink-200 space-y-2">
                   <div className="flex items-center gap-1.5 font-cursive-body text-xs sm:text-sm font-bold text-slate-800">
-                    <User className="w-3.5 h-3.5 text-red-600" />
+                    <User className="w-3.5 h-3.5 text-pink-600" />
                     <span>Tu Nombre o Motivo del Evento (Opcional):</span>
                   </div>
                   <input
                     type="text"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
-                    placeholder="Ej. Cumpleaños de Sofía / Cena Navideña"
-                    className="w-full bg-white border-2 border-red-500 rounded-xl px-3 py-1.5 text-xs sm:text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-emerald-600 font-cursive-body font-bold"
+                    placeholder="Ej. Cumpleaños de Sofía / Bautizo"
+                    className="w-full bg-white border border-pink-300 rounded-xl px-3 py-1.5 text-xs sm:text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-purple-500 font-cursive-body font-bold"
                   />
 
                   <div className="flex items-center gap-1.5 font-cursive-body text-xs sm:text-sm font-bold text-slate-800 pt-1">
-                    <FileText className="w-3.5 h-3.5 text-emerald-600" />
+                    <FileText className="w-3.5 h-3.5 text-purple-600" />
                     <span>Fecha del Evento o Detalles Especiales (Opcional):</span>
                   </div>
                   <input
                     type="text"
                     value={customerNotes}
                     onChange={(e) => setCustomerNotes(e.target.value)}
-                    placeholder="Ej. Sábado 20 de Diciembre, temática princesas..."
-                    className="w-full bg-white border-2 border-emerald-500 rounded-xl px-3 py-1.5 text-xs sm:text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-red-600 font-cursive-body font-bold"
+                    placeholder="Ej. Sábado 15 de Noviembre, temática princesa..."
+                    className="w-full bg-white border border-purple-300 rounded-xl px-3 py-1.5 text-xs sm:text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-pink-500 font-cursive-body font-bold"
                   />
                 </div>
               </div>
             )}
           </div>
 
-          {/* Footer & Actions */}
+          {/* Footer & Actions (NO price/subtotal/total) */}
           {cart.length > 0 && (
-            <div className="p-3.5 sm:p-4 border-t-2 border-red-600 ring-1 ring-emerald-600 bg-gradient-to-r from-red-50/60 via-white to-emerald-50/60 space-y-2.5">
-              <div className="flex items-baseline justify-between">
-                <div>
-                  <span className="font-cursive-body text-xs sm:text-sm text-slate-800 font-bold block">Total Estimado</span>
-                  <span className="font-cursive-body text-[10px] sm:text-xs text-emerald-700 font-bold">Montaje y traslados a coordinar</span>
-                </div>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-xs sm:text-sm font-bold text-emerald-700">{settings.currencySymbol}</span>
-                  <span className="font-cursive-title text-2xl sm:text-3xl font-black text-red-700">
-                    {totalCost.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
-                  </span>
-                </div>
+            <div className="p-3.5 sm:p-4 border-t border-pink-200 bg-gradient-to-r from-pink-50/50 via-white to-purple-50/50 space-y-2">
+              <div className="flex items-center justify-between font-cursive-body text-xs font-bold text-slate-600">
+                <span>{totalItems} {totalItems === 1 ? 'servicio seleccionado' : 'servicios seleccionados'}</span>
+                <span className="text-purple-600">Disponibilidad a coordinar</span>
               </div>
 
-              {/* Action Button: Solicitar Presupuesto */}
+              {/* Action Button: Solicitar Cotización */}
               <button
                 onClick={handleSendBudget}
-                className="w-full py-2.5 sm:py-3 px-4 rounded-2xl bg-gradient-to-r from-emerald-600 via-red-600 to-emerald-600 hover:from-emerald-500 hover:to-red-500 text-white font-cursive-title text-base sm:text-lg font-bold flex items-center justify-center gap-2 shadow-[0_6px_20px_rgba(22,163,74,0.3)] active:scale-98 transition-all border-2 border-red-600 ring-2 ring-emerald-600"
+                className="w-full py-2.5 sm:py-3 px-4 rounded-2xl bg-gradient-to-r from-pink-600 via-purple-600 to-sky-600 hover:from-pink-500 hover:to-sky-500 text-white font-cursive-title text-base sm:text-lg font-bold flex items-center justify-center gap-2 shadow-md active:scale-98 transition-all border border-white"
               >
                 <Send className="w-4 h-4 fill-current" />
-                <span>Solicitar Presupuesto vía WhatsApp 💬</span>
+                <span>Solicitar Cotización por WhatsApp 💬</span>
               </button>
             </div>
           )}
@@ -291,29 +244,29 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             onClick={handleFinishOrder}
             className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"
           />
-          <div className="relative w-full max-w-md bg-white border-3 border-emerald-600 ring-4 ring-red-600 rounded-3xl p-5 sm:p-6 shadow-2xl z-10 text-center animate-in zoom-in-95">
-            <div className="w-14 h-14 rounded-full bg-emerald-50 border-2 border-emerald-600 ring-2 ring-red-600 flex items-center justify-center mx-auto mb-3 text-3xl shadow-inner">
-              🎄
+          <div className="relative w-full max-w-md bg-white border-2 border-pink-400 rounded-3xl p-5 sm:p-6 shadow-2xl z-10 text-center animate-in zoom-in-95">
+            <div className="w-14 h-14 rounded-full bg-pink-50 border border-pink-300 flex items-center justify-center mx-auto mb-3 text-3xl shadow-inner">
+              🎈
             </div>
 
-            <h3 className="font-cursive-title text-xl sm:text-2xl font-extrabold text-red-700 mb-2 leading-snug">
-              ¡Presupuesto Enviado con Éxito!
+            <h3 className="font-cursive-title text-xl sm:text-2xl font-extrabold text-purple-900 mb-2 leading-snug">
+              ¡Cotización Enviada con Éxito!
             </h3>
 
             {/* Texto exacto requerido por el usuario */}
-            <p className="font-cursive-body text-base sm:text-lg text-emerald-900 font-bold mb-4 bg-emerald-50 border-2 border-emerald-600 ring-1 ring-red-500 rounded-2xl p-3 leading-relaxed">
+            <p className="font-cursive-body text-base sm:text-lg text-pink-900 font-bold mb-4 bg-pink-50 border border-pink-300 rounded-2xl p-3 leading-relaxed">
               ¡Su pedido ya fue enviado y pronto será atendido por nuestro personal!
             </p>
 
-            <p className="font-cursive-body text-xs sm:text-sm text-slate-700 font-bold mb-4">
-              Se ha abierto WhatsApp para que converses directamente con el equipo de Ballón Dulces Khloe. 🎈✨
+            <p className="font-cursive-body text-xs sm:text-sm text-slate-600 font-bold mb-4">
+              Se ha abierto WhatsApp para que converses directamente con el equipo de Ballón Dulces Khloe. ✨
             </p>
 
             <button
               onClick={handleFinishOrder}
-              className="w-full py-2.5 sm:py-3 rounded-2xl bg-gradient-to-r from-red-600 to-emerald-600 hover:from-red-500 hover:to-emerald-500 text-white font-cursive-title text-base sm:text-lg font-bold shadow-md transition-all border-2 border-red-600 ring-2 ring-emerald-600"
+              className="w-full py-2.5 sm:py-3 rounded-2xl bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white font-cursive-title text-base sm:text-lg font-bold shadow-md transition-all border border-white"
             >
-              Aceptar y Volver al Catálogo 🎁
+              Aceptar y Volver al Catálogo 🎈
             </button>
           </div>
         </div>

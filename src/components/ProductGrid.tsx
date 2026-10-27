@@ -7,10 +7,11 @@ interface ProductGridProps {
   products: Product[];
   settings: StoreSettings;
   isAdmin: boolean;
-  isNochebuena?: boolean;
+  isDarkMode?: boolean;
   activeCategory: string;
+  selectedProductIds?: string[];
   onOpenDetail: (product: Product) => void;
-  onAddToCart: (product: Product, quantity?: number) => void;
+  onAddToCart: (product: Product) => void;
   onEditProduct: (product: Product) => void;
   onDeleteProduct: (productId: string) => void;
   onOpenAddModal: () => void;
@@ -20,8 +21,9 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
   products,
   settings,
   isAdmin,
-  isNochebuena = false,
+  isDarkMode = false,
   activeCategory,
+  selectedProductIds = [],
   onOpenDetail,
   onAddToCart,
   onEditProduct,
@@ -34,23 +36,23 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
   });
 
   return (
-    <section className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-5">
-      {/* Header bar of catalog section with festive title and stats */}
-      <div className="flex items-center justify-between mb-3 sm:mb-5">
+    <section className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-4">
+      {/* Header bar of catalog section with brand title and stats */}
+      <div className="flex items-center justify-between mb-3 sm:mb-4">
         <div>
           <h2
             className={`font-cursive-title text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-wide flex items-center gap-2 ${
-              isNochebuena
-                ? 'text-amber-300 drop-shadow-[0_0_12px_rgba(251,191,36,0.45)]'
-                : 'text-red-700'
+              isDarkMode
+                ? 'text-pink-300 drop-shadow-[0_0_12px_rgba(244,114,182,0.45)]'
+                : 'text-purple-900'
             }`}
           >
-            <span>🎁 Decoraciones &amp; Festejos Disponibles</span>
+            <span>🎈 Arreglos &amp; Festejos</span>
             <span
-              className={`font-cursive-body text-xs sm:text-sm font-bold px-2.5 py-0.5 rounded-full border-2 shadow-sm ${
-                isNochebuena
-                  ? 'bg-slate-900 text-amber-300 border-red-500 ring-1 ring-emerald-400'
-                  : 'bg-white text-emerald-700 border-red-600 ring-1 ring-emerald-600'
+              className={`font-cursive-body text-xs sm:text-sm font-bold px-2.5 py-0.5 rounded-full border shadow-sm ${
+                isDarkMode
+                  ? 'bg-slate-900 text-pink-300 border-pink-500/70'
+                  : 'bg-white text-purple-700 border-pink-300'
               }`}
             >
               {filteredProducts.length} {filteredProducts.length === 1 ? 'opción' : 'opciones'}
@@ -58,20 +60,20 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
           </h2>
           <p
             className={`font-cursive-body text-xs sm:text-sm font-bold hidden sm:block ${
-              isNochebuena ? 'text-emerald-300' : 'text-emerald-800'
+              isDarkMode ? 'text-sky-200' : 'text-slate-600'
             }`}
           >
-            Toca cualquier producto o servicio para ver especificaciones y cotizar por WhatsApp ✨
+            Toca cualquier arreglo para ver detalles y solicitar tu cotización por WhatsApp ✨
           </p>
         </div>
 
         {isAdmin && (
           <button
             onClick={onOpenAddModal}
-            className="px-3.5 py-2 sm:px-4 sm:py-2 rounded-2xl bg-gradient-to-r from-red-600 to-emerald-600 hover:from-red-500 hover:to-emerald-500 text-white font-cursive-body text-xs sm:text-sm font-bold shadow-md flex items-center gap-1.5 active:scale-95 transition-all border-2 border-red-600 ring-2 ring-emerald-600"
+            className="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white font-cursive-body text-xs sm:text-sm font-bold shadow-md flex items-center gap-1.5 active:scale-95 transition-all border border-pink-400"
           >
             <Plus className="w-3.5 h-3.5 stroke-[3]" />
-            <span>+ Agregar Producto/Servicio</span>
+            <span>+ Agregar Arreglo</span>
           </button>
         )}
       </div>
@@ -89,7 +91,8 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
               product={product}
               settings={settings}
               isAdmin={isAdmin}
-              isNochebuena={isNochebuena}
+              isDarkMode={isDarkMode}
+              isSelected={selectedProductIds.includes(product.id)}
               onOpenDetail={onOpenDetail}
               onAddToCart={onAddToCart}
               onEditProduct={onEditProduct}
@@ -98,38 +101,38 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
           ))}
         </div>
       ) : (
-        /* Empty state with festive touch */
+        /* Empty state */
         <div
           className={`rounded-3xl border-2 p-6 sm:p-10 text-center flex flex-col items-center justify-center shadow-lg ${
-            isNochebuena
-              ? 'border-red-500 ring-2 ring-emerald-500 bg-slate-900/90 text-white'
-              : 'border-red-600 ring-2 ring-emerald-600 bg-white'
+            isDarkMode
+              ? 'border-pink-500/70 bg-slate-900/90 text-white'
+              : 'border-pink-300 bg-white'
           }`}
         >
-          <div className="w-14 h-14 rounded-full bg-red-50 border-2 border-red-600 ring-2 ring-emerald-600 flex items-center justify-center text-2xl mb-2.5">
-            🎄
+          <div className="w-14 h-14 rounded-full bg-pink-50 border border-pink-300 flex items-center justify-center text-2xl mb-2.5">
+            🎈
           </div>
           <h3
             className={`font-cursive-title text-xl font-bold mb-1 ${
-              isNochebuena ? 'text-amber-300' : 'text-red-700'
+              isDarkMode ? 'text-pink-300' : 'text-purple-800'
             }`}
           >
-            No hay opciones en esta categoría navideña
+            No hay arreglos en esta categoría
           </h3>
           <p
             className={`font-cursive-body text-sm font-bold max-w-sm mb-3.5 ${
-              isNochebuena ? 'text-slate-300' : 'text-slate-700'
+              isDarkMode ? 'text-slate-300' : 'text-slate-600'
             }`}
           >
-            Explora las demás categorías de Ballón Dulces Khloe o agrega un nuevo arreglo.
+            Explora las demás categorías de Ballón Dulces Khloe para armar tu cotización.
           </p>
           {isAdmin && (
             <button
               onClick={onOpenAddModal}
-              className="px-4 py-2 rounded-2xl bg-gradient-to-r from-red-600 to-emerald-600 hover:from-red-500 hover:to-emerald-500 text-white font-cursive-body text-xs sm:text-sm font-bold inline-flex items-center gap-1.5 shadow-lg border-2 border-white"
+              className="px-4 py-2 rounded-2xl bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white font-cursive-body text-xs sm:text-sm font-bold inline-flex items-center gap-1.5 shadow-md border border-white"
             >
               <Plus className="w-3.5 h-3.5" />
-              Crear Producto en esta Categoría
+              Crear Arreglo en esta Categoría
             </button>
           )}
         </div>
@@ -140,10 +143,10 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
         <div className="mt-6 flex justify-center">
           <button
             onClick={onOpenAddModal}
-            className="w-full sm:w-auto px-6 py-2.5 sm:py-3 rounded-2xl bg-gradient-to-r from-red-600 to-emerald-600 hover:from-red-500 hover:to-emerald-500 text-white font-cursive-title text-base sm:text-lg font-bold shadow-[0_6px_20px_rgba(220,38,38,0.25)] flex items-center justify-center gap-2 transition-all active:scale-98 border-2 border-red-600 ring-2 ring-emerald-600"
+            className="w-full sm:w-auto px-6 py-2.5 sm:py-3 rounded-2xl bg-gradient-to-r from-pink-600 via-purple-600 to-sky-600 hover:from-pink-500 hover:to-sky-500 text-white font-cursive-title text-base sm:text-lg font-bold shadow-md flex items-center justify-center gap-2 transition-all active:scale-98 border border-white"
           >
             <Plus className="w-5 h-5 stroke-[3]" />
-            <span>+ Agregar Nuevo Producto o Servicio al Catálogo Khloe</span>
+            <span>+ Agregar Nuevo Arreglo al Catálogo Khloe</span>
           </button>
         </div>
       )}

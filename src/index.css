@@ -14,7 +14,6 @@
     color: #0f172a;
   }
 
-
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Dancing Script', cursive;
   }
@@ -37,86 +36,27 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Red & Green Christmas Borders and Glows */
-.border-christmas-rg {
-  border: 2px solid #dc2626;
-  box-shadow: 0 0 0 2px #16a34a, 0 6px 20px -2px rgba(220, 38, 38, 0.25), 0 6px 24px -4px rgba(22, 163, 74, 0.25);
+/* Ballón Dulces Khloe Pastel Rainbow Brand Accents & Neon Glows */
+.border-brand-pastel {
+  border: 2px solid #f472b6;
+  box-shadow: 0 0 0 2px #38bdf8, 0 6px 20px -2px rgba(244, 114, 182, 0.25), 0 6px 24px -4px rgba(56, 189, 248, 0.25);
 }
 
-.border-christmas-gr {
-  border: 2px solid #16a34a;
-  box-shadow: 0 0 0 2px #dc2626, 0 6px 20px -2px rgba(22, 163, 74, 0.25), 0 6px 24px -4px rgba(220, 38, 38, 0.25);
+.glow-brand-pink {
+  box-shadow: 0 0 18px -2px rgba(244, 114, 182, 0.35), 0 0 28px -4px rgba(192, 132, 252, 0.35);
 }
 
-.glow-christmas-festive {
-  box-shadow: 0 0 18px -2px rgba(220, 38, 38, 0.35), 0 0 28px -4px rgba(22, 163, 74, 0.35);
+.glow-brand-blue {
+  box-shadow: 0 0 18px -2px rgba(56, 189, 248, 0.35), 0 0 28px -4px rgba(253, 224, 71, 0.35);
 }
 
-.glow-card-christmas {
+.glow-card-brand {
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.glow-card-christmas:hover {
-  box-shadow: 0 0 0 2px #16a34a, 0 10px 25px -3px rgba(220, 38, 38, 0.35), 0 10px 30px -5px rgba(22, 163, 74, 0.3);
+.glow-card-brand:hover {
+  box-shadow: 0 0 0 2px #f472b6, 0 10px 25px -3px rgba(56, 189, 248, 0.35), 0 10px 30px -5px rgba(244, 114, 182, 0.3);
   transform: translateY(-3px);
-}
-
-/* Nochebuena Enhanced Glows */
-.nochebuena-lights-glow {
-  filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 18px currentColor);
-}
-
-.nochebuena-card-shadow {
-  box-shadow: 0 0 0 2px #dc2626, 0 0 0 4px #16a34a, 0 0 30px -3px rgba(220, 38, 38, 0.45), 0 0 40px -5px rgba(22, 163, 74, 0.4);
-}
-
-
-/* Christmas Garland Lights Animation */
-@keyframes fairyTwinkle {
-  0%, 100% { opacity: 0.55; transform: scale(0.92); }
-  50% { opacity: 1; transform: scale(1.18); filter: drop-shadow(0 0 6px currentColor); }
-}
-
-.animate-twinkle-1 {
-  animation: fairyTwinkle 1.8s infinite ease-in-out;
-}
-.animate-twinkle-2 {
-  animation: fairyTwinkle 2.2s infinite ease-in-out 0.4s;
-}
-.animate-twinkle-3 {
-  animation: fairyTwinkle 1.6s infinite ease-in-out 0.8s;
-}
-.animate-twinkle-4 {
-  animation: fairyTwinkle 2s infinite ease-in-out 1.2s;
-}
-
-/* Falling snow keyframes */
-@keyframes snowfall {
-  0% {
-    transform: translateY(-10px) translateX(0);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.85;
-  }
-  90% {
-    opacity: 0.85;
-  }
-  100% {
-    transform: translateY(100vh) translateX(30px);
-    opacity: 0;
-  }
-}
-
-.snowflake {
-  position: fixed;
-  top: -10px;
-  pointer-events: none;
-  z-index: 35;
-  user-select: none;
-  animation-name: snowfall;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
 }
 
 /* Hide scrollbar */

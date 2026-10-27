@@ -11,8 +11,8 @@ import {
   saveStoredSettings,
   loadStoredCart,
   saveStoredCart,
-  loadStoredNochebuena,
-  saveStoredNochebuena,
+  loadStoredDarkMode,
+  saveStoredDarkMode,
 } from './utils/storage';
 import { INITIAL_PRODUCTS, INITIAL_BANNERS, INITIAL_CATEGORIES, INITIAL_SETTINGS } from './data/initialData';
 import { Header } from './components/Header';
@@ -27,7 +27,6 @@ import { AdminProductModal } from './components/AdminProductModal';
 import { AdminBannerModal } from './components/AdminBannerModal';
 import { AdminSettingsModal } from './components/AdminSettingsModal';
 import { AdminLoginModal } from './components/AdminLoginModal';
-import { SnowEffect } from './components/SnowEffect';
 
 export default function App() {
   // Application Data States with LocalStorage Persistence
@@ -37,18 +36,14 @@ export default function App() {
   const [settings, setSettings] = useState<StoreSettings>(() => loadStoredSettings());
   const [cart, setCart] = useState<CartItem[]>(() => loadStoredCart());
 
-  // Festive Christmas Nochebuena Theme State
-  const [isNochebuena, setIsNochebuena] = useState<boolean>(() => loadStoredNochebuena());
-
-  // Festive Christmas Snow State
-  const [snowEnabled, setSnowEnabled] = useState<boolean>(true);
+  // Dark / Light Mode State (default active)
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => loadStoredDarkMode());
 
   // Navigation & Filtering
   const [activeCategory, setActiveCategory] = useState<string>('todos');
 
   // Admin Mode State
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
-
 
   // Modals & Drawers States
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -82,12 +77,12 @@ export default function App() {
   }, [cart]);
 
   useEffect(() => {
-    saveStoredNochebuena(isNochebuena);
-  }, [isNochebuena]);
+    saveStoredDarkMode(isDarkMode);
+  }, [isDarkMode]);
 
-  // Nochebuena Theme Toggle Handler
-  const handleToggleNochebuena = () => {
-    setIsNochebuena((prev) => !prev);
+  // Dark Mode Toggle
+  const handleToggleDarkMode = () => {
+    setIsDarkMode((prev) => !prev);
   };
 
   // Admin Toggle Handler
@@ -99,31 +94,13 @@ export default function App() {
     }
   };
 
-  // Cart Handlers
-  const handleAddToCart = (product: Product, quantity = 1) => {
+  // Cart / Quote List Handlers (No quantities - single item per selection)
+  const handleAddToCart = (product: Product) => {
     setCart((prev) => {
       const existing = prev.find((item) => item.product.id === product.id);
-      if (existing) {
-        return prev.map((item) =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      }
-      return [...prev, { product, quantity }];
+      if (existing) return prev; // Already in quote list
+      return [...prev, { product, quantity: 1 }];
     });
-  };
-
-  const handleUpdateCartQuantity = (productId: string, quantity: number) => {
-    if (quantity <= 0) {
-      handleRemoveCartItem(productId);
-      return;
-    }
-    setCart((prev) =>
-      prev.map((item) =>
-        item.product.id === productId ? { ...item, quantity } : item
-      )
-    );
   };
 
   const handleRemoveCartItem = (productId: string) => {
@@ -157,7 +134,6 @@ export default function App() {
 
   const handleDeleteProduct = (productId: string) => {
     setProducts((prev) => prev.filter((p) => p.id !== productId));
-    // Also remove from cart if present
     setCart((prev) => prev.filter((item) => item.product.id !== productId));
   };
 
@@ -208,12 +184,26 @@ export default function App() {
     setActiveCategory('todos');
   };
 
+  const handleImportFullData = (data: {
+    products?: Product[];
+    banners?: Banner[];
+    categories?: Category[];
+    settings?: StoreSettings;
+  }) => {
+    if (Array.isArray(data.products) && data.products.length > 0) setProducts(data.products);
+    if (Array.isArray(data.banners) && data.banners.length > 0) setBanners(data.banners);
+    if (Array.isArray(data.categories) && data.categories.length > 0) setCategories(data.categories);
+    if (data.settings) setSettings(data.settings);
+  };
+
+  const selectedProductIds = cart.map((item) => item.product.id);
+
   return (
-    <div className={`min-h-screen flex flex-col selection:bg-red-500/20 selection:text-red-900 relative overflow-x-hidden ${
-      isNochebuena ? 'text-slate-100' : 'text-slate-900'
+    <div className={`min-h-screen flex flex-col selection:bg-pink-500/20 selection:text-pink-900 relative overflow-x-hidden ${
+      isDarkMode ? 'text-slate-100' : 'text-slate-900'
     }`}>
       
-      {/* Imagen adjuntada como fondo completo del sitio (compatible con móviles y escritorio) */}
+      {/* Background Image: Celebration Balloons Background */}
       <div
         className="fixed inset-0 -z-10 pointer-events-none bg-cover bg-center bg-no-repeat"
         style={{
@@ -222,82 +212,78 @@ export default function App() {
         aria-hidden="true"
       />
 
-      {/* Filtro Oscuro Nochebuena: oscurece el fondo permitiendo que las luces navideñas, neón y elementos del catálogo resalten con brillo radiante */}
+      {/* Dark Mode Gradient Filter */}
       <div
         className={`fixed inset-0 -z-5 pointer-events-none transition-all duration-700 ease-in-out ${
-          isNochebuena ? 'opacity-100' : 'opacity-0'
+          isDarkMode ? 'opacity-100' : 'opacity-0'
         }`}
         style={{
-          background: 'radial-gradient(ellipse at 50% 15%, rgba(13, 5, 29, 0.88) 0%, rgba(6, 2, 16, 0.94) 100%)',
-          backdropFilter: 'brightness(0.55) contrast(1.22) saturate(1.15)',
-          WebkitBackdropFilter: 'brightness(0.55) contrast(1.22) saturate(1.15)',
+          background: 'radial-gradient(ellipse at 50% 15%, rgba(18, 8, 38, 0.9) 0%, rgba(10, 4, 24, 0.95) 100%)',
+          backdropFilter: 'brightness(0.65) contrast(1.15) saturate(1.1)',
+          WebkitBackdropFilter: 'brightness(0.65) contrast(1.15) saturate(1.1)',
         }}
         aria-hidden="true"
       />
 
-      {/* Falling Christmas Snow */}
-      <SnowEffect enabled={snowEnabled} isNochebuena={isNochebuena} />
-
-      {/* 2. Barra Superior (Header Fijo con Logo de Ballón Dulces Khloe) */}
+      {/* Header Fijo con Logo de Ballón Dulces Khloe */}
       <Header
         settings={settings}
         isAdmin={isAdmin}
         onToggleAdmin={handleToggleAdmin}
         onOpenSettingsModal={() => setIsAdminSettingsModalOpen(true)}
-        snowEnabled={snowEnabled}
-        onToggleSnow={() => setSnowEnabled(!snowEnabled)}
-        isNochebuena={isNochebuena}
-        onToggleNochebuena={handleToggleNochebuena}
+        isDarkMode={isDarkMode}
+        onToggleDarkMode={handleToggleDarkMode}
       />
 
-      {/* Main Content Area: Padding bottom (pb-36) avoids obscuring by fixed cart button & footer */}
-      <main className="flex-1 pb-36 sm:pb-32 bg-transparent">
+      {/* Main Content Area */}
+      <main className="flex-1 pb-32 sm:pb-30 bg-transparent">
         {/* Admin status notice banner if active */}
         {isAdmin && (
           <div
-            className={`border-b-2 py-2.5 px-4 text-center font-cursive-body backdrop-blur-sm ${
-              isNochebuena
-                ? 'bg-slate-900/90 border-red-500 ring-1 ring-emerald-500 text-amber-200'
-                : 'bg-red-50/90 border-red-600 ring-1 ring-emerald-600 text-red-800'
+            className={`border-b py-2 px-4 text-center font-cursive-body backdrop-blur-sm ${
+              isDarkMode
+                ? 'bg-slate-900/90 border-pink-500 text-pink-200'
+                : 'bg-pink-50/90 border-pink-400 text-purple-900'
             }`}
           >
-            <p className="text-base font-bold flex items-center justify-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-              <span>Modo Administrador Habilitado: Puedes editar o añadir decoraciones, banners, categorías y WhatsApp.</span>
+            <p className="text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-pink-500 animate-ping" />
+              <span>Modo Administrador Activo: Puedes añadir o editar decoraciones, subir imágenes a la red y cambiar categorías.</span>
             </p>
           </div>
         )}
 
-        {/* 3. Carrusel de Banners Publicitarios (Hero Section) */}
+        {/* Carrusel de Banners Publicitarios (Hero Section) */}
         <HeroCarousel
           banners={banners}
           isAdmin={isAdmin}
-          isNochebuena={isNochebuena}
+          isDarkMode={isDarkMode}
           onSelectCategory={(catId) => setActiveCategory(catId)}
           onAddBanner={handleAddBanner}
           onDeleteBanner={handleDeleteBanner}
           onEditBanner={handleEditBanner}
         />
 
-        {/* 4. Sistema de Filtrado por Categorías */}
+        {/* Sistema de Filtrado por Categorías */}
         <CategoryFilter
           categories={categories}
           activeCategory={activeCategory}
           onSelectCategory={setActiveCategory}
           products={products}
           isAdmin={isAdmin}
-          isNochebuena={isNochebuena}
+          isDarkMode={isDarkMode}
           onAddCategory={handleAddCategory}
           onDeleteCategory={handleDeleteCategory}
         />
 
-        {/* 5. Cuadrícula de Catálogo (Grid de Productos/Servicios) */}
+        {/* Cuadrícula de Catálogo (Grid de Productos/Servicios) */}
         <ProductGrid
           products={products}
           settings={settings}
           isAdmin={isAdmin}
-          isNochebuena={isNochebuena}
+          isDarkMode={isDarkMode}
           activeCategory={activeCategory}
+          selectedProductIds={selectedProductIds}
           onOpenDetail={(product) => setSelectedProduct(product)}
           onAddToCart={handleAddToCart}
           onEditProduct={handleEditProduct}
@@ -306,17 +292,17 @@ export default function App() {
         />
       </main>
 
-      {/* 7. Botón Ancho Flotante "Ver Carrito de Compras" */}
+      {/* Botón Flotante "Ver Lista de Cotización" */}
       <FixedCartBar
         cart={cart}
         settings={settings}
         onOpenCart={() => setIsCartOpen(true)}
       />
 
-      {/* 8. Cintillo Inferior Fijo (Footer Persistente S&S Web Studio) */}
-      <FooterBar isNochebuena={isNochebuena} />
+      {/* Cintillo Inferior Fijo (Footer Persistente S&S Web Studio) */}
+      <FooterBar isDarkMode={isDarkMode} />
 
-      {/* 6. Modal de Detalle de Producto */}
+      {/* Modal de Detalle de Producto */}
       <ProductDetailModal
         product={selectedProduct}
         settings={settings}
@@ -325,13 +311,12 @@ export default function App() {
         onAddToCart={handleAddToCart}
       />
 
-      {/* 7. Panel Drawer del Carrito & Flujo WhatsApp */}
+      {/* Panel Drawer de Cotización & Flujo WhatsApp */}
       <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         cart={cart}
         settings={settings}
-        onUpdateQuantity={handleUpdateCartQuantity}
         onRemoveItem={handleRemoveCartItem}
         onClearCart={handleClearCart}
       />
@@ -364,8 +349,12 @@ export default function App() {
         isOpen={isAdminSettingsModalOpen}
         onClose={() => setIsAdminSettingsModalOpen(false)}
         settings={settings}
+        products={products}
+        banners={banners}
+        categories={categories}
         onSaveSettings={handleSaveSettings}
         onResetFactoryData={handleResetFactoryData}
+        onImportFullData={handleImportFullData}
       />
 
       <AdminLoginModal

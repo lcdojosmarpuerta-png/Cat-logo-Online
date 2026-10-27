@@ -2,34 +2,36 @@ import { Product, Banner, Category, StoreSettings, CartItem } from '../types/cat
 import { INITIAL_PRODUCTS, INITIAL_BANNERS, INITIAL_CATEGORIES, INITIAL_SETTINGS } from '../data/initialData';
 
 const KEYS = {
-  PRODUCTS: 'catalog_products_v2',
-  BANNERS: 'catalog_banners_v2',
-  CATEGORIES: 'catalog_categories_v2',
-  SETTINGS: 'catalog_settings_v2',
-  CART: 'catalog_cart_v2',
-  IS_ADMIN: 'catalog_is_admin_v2',
-  NOCHEBUENA: 'catalog_theme_nochebuena_v2',
+  PRODUCTS: 'catalog_products_v3',
+  BANNERS: 'catalog_banners_v3',
+  CATEGORIES: 'catalog_categories_v3',
+  SETTINGS: 'catalog_settings_v3',
+  CART: 'catalog_cart_v3',
+  IS_ADMIN: 'catalog_is_admin_v3',
+  DARK_MODE: 'catalog_theme_dark_v3',
 };
 
-export const loadStoredNochebuena = (): boolean => {
+export const loadStoredDarkMode = (): boolean => {
   try {
-    const item = localStorage.getItem(KEYS.NOCHEBUENA);
-    if (item === null) return true; // Modo nocturno predeterminado al iniciar el sitio
+    const item = localStorage.getItem(KEYS.DARK_MODE);
+    if (item === null) return true; // Modo oscuro predeterminado
     return item === 'true';
   } catch {
     return true;
   }
 };
 
-export const saveStoredNochebuena = (enabled: boolean): void => {
+export const saveStoredDarkMode = (enabled: boolean): void => {
   try {
-    localStorage.setItem(KEYS.NOCHEBUENA, String(enabled));
+    localStorage.setItem(KEYS.DARK_MODE, String(enabled));
   } catch (e) {
-    console.error('Failed to save Nochebuena theme to localStorage', e);
+    console.error('Failed to save dark theme to localStorage', e);
   }
 };
 
-
+// Aliases for compatibility
+export const loadStoredNochebuena = loadStoredDarkMode;
+export const saveStoredNochebuena = saveStoredDarkMode;
 
 export const loadStoredProducts = (): Product[] => {
   try {
@@ -159,7 +161,6 @@ export const compressImageFile = (file: File, maxWidth = 1000, quality = 0.82): 
           return;
         }
         ctx.drawImage(img, 0, 0, width, height);
-        // Try webp or jpeg
         try {
           const dataUrl = canvas.toDataURL('image/jpeg', quality);
           resolve(dataUrl);

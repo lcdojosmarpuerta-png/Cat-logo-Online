@@ -2,12 +2,12 @@ export interface Product {
   id: string;
   name: string;
   category: string;
-  price: number;
   description: string;
   image: string;
-  badge?: string; // e.g. "Destacado", "Oferta", "Servicio", "Nuevo"
+  price?: number;
+  badge?: string; // e.g. "Destacado", "Popular", "Servicio", "Nuevo"
   inStock?: boolean;
-  unit?: string; // e.g. "u.", "mes", "servicio", "hora"
+  unit?: string;
 }
 
 export interface Banner {
@@ -21,7 +21,6 @@ export interface Banner {
   buttonText?: string;
 }
 
-
 export interface Category {
   id: string;
   name: string;
@@ -30,14 +29,14 @@ export interface Category {
 
 export interface CartItem {
   product: Product;
-  quantity: number;
+  quantity?: number;
 }
 
 export interface StoreSettings {
   companyName: string;
   logoUrl: string;
   whatsappNumber: string; // e.g. "584245104245"
-  currencySymbol: string; // e.g. "$"
   confirmationMessage: string;
   adminPin: string;
+  currencySymbol?: string;
 }

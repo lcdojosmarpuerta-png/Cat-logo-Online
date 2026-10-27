@@ -8,7 +8,7 @@ interface CategoryFilterProps {
   onSelectCategory: (categoryId: string) => void;
   products: Product[];
   isAdmin: boolean;
-  isNochebuena?: boolean;
+  isDarkMode?: boolean;
   onAddCategory: (categoryName: string) => void;
   onDeleteCategory: (categoryId: string) => void;
 }
@@ -19,7 +19,7 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
   onSelectCategory,
   products,
   isAdmin,
-  isNochebuena = false,
+  isDarkMode = false,
   onAddCategory,
   onDeleteCategory,
 }) => {
@@ -40,9 +40,9 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
   };
 
   return (
-    <section className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3">
+    <section className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5">
       {/* Category horizontal scrolling bar */}
-      <div className="flex items-center md:justify-center gap-2.5 sm:gap-3 overflow-x-auto no-scrollbar py-1.5 scroll-smooth">
+      <div className="flex items-center md:justify-center gap-2 overflow-x-auto no-scrollbar py-1 scroll-smooth">
         {categories.map((cat, index) => {
           const isActive = activeCategory === cat.id;
           const count = getProductCount(cat.id);
@@ -55,26 +55,26 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
                 onClick={() => onSelectCategory(cat.id)}
                 className={`whitespace-nowrap px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full font-cursive-body text-xs sm:text-sm font-bold transition-all duration-200 flex items-center gap-1.5 select-none border-2 ${
                   isActive
-                    ? 'bg-gradient-to-r from-red-600 to-emerald-600 text-white border-red-500 ring-2 ring-emerald-400 shadow-[0_0_15px_rgba(220,38,38,0.45)] scale-102'
-                    : isNochebuena
+                    ? 'bg-gradient-to-r from-pink-500 via-purple-500 to-sky-500 text-white border-pink-400 ring-2 ring-sky-300 shadow-[0_0_15px_rgba(244,114,182,0.45)] scale-102'
+                    : isDarkMode
                     ? isEven
-                      ? 'bg-slate-900/85 text-slate-100 hover:text-red-300 hover:bg-slate-800 border-red-500 ring-1 ring-emerald-500 shadow-sm'
-                      : 'bg-slate-900/85 text-slate-100 hover:text-emerald-300 hover:bg-slate-800 border-emerald-500 ring-1 ring-red-500 shadow-sm'
+                      ? 'bg-slate-900/85 text-slate-100 hover:text-pink-300 hover:bg-slate-800 border-pink-500/70 shadow-sm'
+                      : 'bg-slate-900/85 text-slate-100 hover:text-sky-300 hover:bg-slate-800 border-sky-500/70 shadow-sm'
                     : isEven
-                    ? 'bg-white text-slate-800 hover:text-red-700 hover:bg-red-50/60 border-red-500 ring-1 ring-emerald-500 shadow-sm'
-                    : 'bg-white text-slate-800 hover:text-emerald-700 hover:bg-emerald-50/60 border-emerald-600 ring-1 ring-red-500 shadow-sm'
+                    ? 'bg-white text-slate-800 hover:text-pink-600 hover:bg-pink-50/60 border-pink-300 shadow-sm'
+                    : 'bg-white text-slate-800 hover:text-sky-600 hover:bg-sky-50/60 border-sky-300 shadow-sm'
                 }`}
               >
                 <span>{cat.name}</span>
                 <span
                   className={`text-[10px] sm:text-[11px] px-1.5 py-0.5 rounded-full font-mono-nums ${
                     isActive
-                      ? 'bg-white text-red-700 font-extrabold'
-                      : isNochebuena
-                      ? 'bg-slate-800 text-amber-300 font-bold border border-slate-700'
+                      ? 'bg-white text-purple-700 font-extrabold'
+                      : isDarkMode
+                      ? 'bg-slate-800 text-pink-300 font-bold border border-slate-700'
                       : isEven
-                      ? 'bg-red-100 text-red-800 font-bold'
-                      : 'bg-emerald-100 text-emerald-800 font-bold'
+                      ? 'bg-pink-100 text-pink-800 font-bold'
+                      : 'bg-sky-100 text-sky-800 font-bold'
                   }`}
                 >
                   {count}
@@ -86,7 +86,7 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (confirm(`¿Eliminar la categoría "${cat.name}"? Los productos de esta categoría se conservarán.`)) {
+                    if (confirm(`¿Eliminar la categoría "${cat.name}"? Los arreglos se conservarán.`)) {
                       onDeleteCategory(cat.id);
                     }
                   }}
@@ -104,7 +104,7 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
         {isAdmin && (
           <div className="flex-shrink-0">
             {isAdding ? (
-              <form onSubmit={handleCreate} className="flex items-center gap-1.5 bg-white border-2 border-red-600 ring-1 ring-emerald-600 rounded-full px-3 py-1 shadow-md">
+              <form onSubmit={handleCreate} className="flex items-center gap-1.5 bg-white border-2 border-pink-400 rounded-full px-3 py-1 shadow-md">
                 <input
                   type="text"
                   placeholder="Nombre de categoría..."
@@ -115,7 +115,7 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
                 />
                 <button
                   type="submit"
-                  className="text-[11px] bg-emerald-600 text-white font-bold px-2 py-0.5 rounded-full hover:bg-emerald-700 font-cursive-body"
+                  className="text-[11px] bg-pink-600 text-white font-bold px-2 py-0.5 rounded-full hover:bg-pink-700 font-cursive-body"
                 >
                   Crear
                 </button>
@@ -130,9 +130,9 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
             ) : (
               <button
                 onClick={() => setIsAdding(true)}
-                className="whitespace-nowrap px-3.5 py-1.5 rounded-full font-cursive-body text-xs sm:text-sm font-bold bg-white text-emerald-700 border-2 border-emerald-600 ring-1 ring-red-500 hover:bg-emerald-50 transition-all flex items-center gap-1 shadow-sm"
+                className="whitespace-nowrap px-3.5 py-1.5 rounded-full font-cursive-body text-xs sm:text-sm font-bold bg-white text-purple-700 border-2 border-purple-300 hover:bg-purple-50 transition-all flex items-center gap-1 shadow-sm"
               >
-                <Plus className="w-3.5 h-3.5 stroke-[2.5] text-red-600" />
+                <Plus className="w-3.5 h-3.5 stroke-[2.5] text-pink-600" />
                 <span>+ Nueva Categoría</span>
               </button>
             )}

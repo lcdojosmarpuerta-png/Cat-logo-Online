@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, ArrowRight } from 'lucide-react';
+import { X, ArrowRight, Lock } from 'lucide-react';
 
 interface AdminLoginModalProps {
   isOpen: boolean;
@@ -40,24 +40,24 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
       <div onClick={onClose} className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm" />
 
-      <div className="relative w-full max-w-sm bg-white border-3 border-red-600 ring-4 ring-emerald-600 rounded-3xl p-6 sm:p-7 shadow-2xl z-10 animate-in zoom-in-95 text-center">
+      <div className="relative w-full max-w-sm bg-white border-2 border-pink-400 rounded-3xl p-5 sm:p-6 shadow-2xl z-10 animate-in zoom-in-95 text-center">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-red-50 hover:bg-red-100 text-red-700 border-2 border-red-600 ring-1 ring-emerald-600 flex items-center justify-center transition-colors"
+          className="absolute top-3.5 right-3.5 w-7 h-7 rounded-full bg-pink-50 hover:bg-pink-100 text-pink-700 border border-pink-300 flex items-center justify-center transition-colors"
         >
-          <X className="w-4 h-4" />
+          <X className="w-3.5 h-3.5" />
         </button>
 
-        <div className="w-14 h-14 rounded-2xl bg-red-50 border-2 border-red-600 ring-2 ring-emerald-600 flex items-center justify-center mx-auto mb-3 text-2xl shadow-inner">
-          🎅
+        <div className="w-12 h-12 rounded-2xl bg-pink-50 border border-pink-300 flex items-center justify-center mx-auto mb-2.5 text-xl shadow-inner text-pink-600">
+          <Lock className="w-6 h-6 stroke-[2.2]" />
         </div>
 
-        <h3 className="font-cursive-title text-2xl font-bold text-red-700 mb-1">Acceso Modo Administrador</h3>
-        <p className="font-cursive-body text-base text-slate-700 font-bold mb-5">
-          Ingresa tu PIN para gestionar decoraciones, banners y categorías de Khloe.
+        <h3 className="font-cursive-title text-xl font-bold text-purple-900 mb-1">Acceso Modo Administrador</h3>
+        <p className="font-cursive-body text-xs sm:text-sm text-slate-600 font-bold mb-4">
+          Ingresa tu PIN para editar arreglos, banners y opciones de Ballón Dulces Khloe.
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3">
           <div className="relative">
             <input
               type="password"
@@ -69,32 +69,32 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
                 setError(false);
               }}
               placeholder="••••"
-              className={`w-full bg-white border-2 rounded-2xl py-3 px-4 text-center text-xl font-mono-nums tracking-widest text-slate-900 placeholder-slate-400 outline-none transition-colors ${
-                error ? 'border-red-600 bg-red-50/40' : 'border-red-600 ring-1 ring-emerald-600 focus:border-emerald-600'
+              className={`w-full bg-white border-2 rounded-2xl py-2.5 px-4 text-center text-lg font-mono-nums tracking-widest text-slate-900 placeholder-slate-400 outline-none transition-colors ${
+                error ? 'border-red-500 bg-red-50/40' : 'border-pink-300 focus:border-purple-500'
               }`}
             />
           </div>
 
           {error && (
-            <p className="text-sm text-red-600 font-bold">PIN incorrecto. Intenta con 1234.</p>
+            <p className="text-xs text-red-600 font-bold">PIN incorrecto. Intenta con 1234.</p>
           )}
 
           <button
             type="submit"
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-red-600 to-emerald-600 hover:from-red-500 hover:to-emerald-500 text-white font-bold text-base shadow-lg transition-all flex items-center justify-center gap-2 border-2 border-red-600 ring-1 ring-emerald-600"
+            className="w-full py-2.5 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white font-bold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-1.5 border border-white"
           >
             <span>Desbloquear Modo Admin</span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </form>
 
-        <div className="mt-5 pt-4 border-t-2 border-dashed border-emerald-300">
-          <p className="text-sm text-slate-600 font-bold mb-2">
-            PIN predeterminado de demostración: <strong className="text-red-700">1234</strong>
+        <div className="mt-4 pt-3 border-t border-dashed border-pink-200">
+          <p className="text-xs text-slate-500 font-bold mb-1.5">
+            PIN predeterminado: <strong className="text-pink-600">1234</strong>
           </p>
           <button
             onClick={handleQuickUnlock}
-            className="text-base text-emerald-700 hover:text-red-700 font-bold underline decoration-red-500/60"
+            className="text-xs text-purple-600 hover:text-pink-600 font-bold underline"
           >
             Entrar directamente con un clic
           </button>
